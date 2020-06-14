@@ -1,0 +1,1009 @@
+
+GSFC Classic Build Version 6.5.0
+
+>>> [ENVS] MAKEFILE ENVIRONMENT VARIABLES <<<
+
+MISSION = CFE_TST
+THE_APPS = ci_lab to_lab  cfs_lib cf cs ds fm hk hs lc md mm sc sch whe
+THE_TBLS =  ds fm hk lc sc sch cf hs 
+
+CFS_MISSION = /home/cfs/cfs-master
+CFS_MISSION_INC = /home/cfs/cfs-master/build/mission_inc
+CFS_APP_SRC = /home/cfs/cfs-master/apps
+CFE_FSW = /home/cfs/cfs-master/cfe/fsw
+CFE_CORE_SRC = /home/cfs/cfs-master/cfe/fsw/cfe-core/src
+CFE_CORE_PLATFORM_INC_SRC = cpu1
+CFE_TOOLS = /home/cfs/cfs-master/tools
+CFE_PSP_SRC = /home/cfs/cfs-master/psp/fsw
+OSAL = /home/cfs/cfs-master/osal
+OSAL_SRC = /home/cfs/cfs-master/osal/src/os
+
+BUILD_PATH = .
+CFS_EXE = ./exe
+CFS_PROM = ./exe/cf
+CFS_PROM_APPS = ./exe/cf/apps
+CFS_RAM = ./exe/ram
+
+GSFC Classic Build Version 6.5.0
+
+>>> [BUILD] BUILD CFE <<<
+
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/cfe'
+make -C osal 
+make[2]: Entering directory '/home/cfs/cfs-master/build/cpu1/cfe/osal'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/osal/src/os/posix -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o osapi.o /home/cfs/cfs-master/osal/src/os/posix/osapi.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/osal/src/os/posix -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o osfileapi.o /home/cfs/cfs-master/osal/src/os/posix/osfileapi.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/osal/src/os/posix -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o osfilesys.o /home/cfs/cfs-master/osal/src/os/posix/osfilesys.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/osal/src/os/posix -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o osnetwork.o /home/cfs/cfs-master/osal/src/os/posix/osnetwork.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/osal/src/os/posix -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o osloader.o /home/cfs/cfs-master/osal/src/os/posix/osloader.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/osal/src/os/posix -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o ostimer.o /home/cfs/cfs-master/osal/src/os/posix/ostimer.c
+ld -melf_i386  -o osal.o -r osapi.o osfileapi.o  osfilesys.o  osnetwork.o osloader.o ostimer.o
+make[2]: Leaving directory '/home/cfs/cfs-master/build/cpu1/cfe/osal'
+make -C psp 
+make[2]: Entering directory '/home/cfs/cfs-master/build/cpu1/cfe/psp'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_psp_start.o /home/cfs/cfs-master/psp/fsw/pc-linux/src/cfe_psp_start.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_psp_support.o /home/cfs/cfs-master/psp/fsw/pc-linux/src/cfe_psp_support.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_psp_ssr.o /home/cfs/cfs-master/psp/fsw/pc-linux/src/cfe_psp_ssr.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_psp_voltab.o /home/cfs/cfs-master/psp/fsw/pc-linux/src/cfe_psp_voltab.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_psp_memtab.o /home/cfs/cfs-master/psp/fsw/pc-linux/src/cfe_psp_memtab.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_psp_timer.o /home/cfs/cfs-master/psp/fsw/pc-linux/src/cfe_psp_timer.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_psp_watchdog.o /home/cfs/cfs-master/psp/fsw/pc-linux/src/cfe_psp_watchdog.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_psp_memory.o /home/cfs/cfs-master/psp/fsw/pc-linux/src/cfe_psp_memory.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_psp_exception.o /home/cfs/cfs-master/psp/fsw/pc-linux/src/cfe_psp_exception.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_psp_ram.o /home/cfs/cfs-master/psp/fsw/shared/cfe_psp_ram.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_psp_eeprom.o /home/cfs/cfs-master/psp/fsw/shared/cfe_psp_eeprom.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_psp_port.o /home/cfs/cfs-master/psp/fsw/shared/cfe_psp_port.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_psp_memrange.o /home/cfs/cfs-master/psp/fsw/shared/cfe_psp_memrange.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_psp_memutils.o /home/cfs/cfs-master/psp/fsw/shared/cfe_psp_memutils.c
+ld -melf_i386  -o psp.o -r cfe_psp_start.o cfe_psp_support.o cfe_psp_ssr.o cfe_psp_voltab.o cfe_psp_memtab.o cfe_psp_timer.o cfe_psp_watchdog.o cfe_psp_memory.o cfe_psp_exception.o cfe_psp_ram.o cfe_psp_eeprom.o cfe_psp_port.o cfe_psp_memrange.o cfe_psp_memutils.o
+make[2]: Leaving directory '/home/cfs/cfs-master/build/cpu1/cfe/psp'
+make -C es 
+make[2]: Entering directory '/home/cfs/cfs-master/build/cpu1/cfe/es'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/es -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_es_start.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/es/cfe_es_start.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/es -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_es_api.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/es/cfe_es_api.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/es -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_es_objtab.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/es/cfe_es_objtab.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/es -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_es_apps.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/es/cfe_es_apps.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/es -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_esmempool.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/es/cfe_esmempool.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/es -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_es_perf.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/es/cfe_es_perf.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/es -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_es_shell.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/es/cfe_es_shell.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/es -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_es_cds_mempool.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/es/cfe_es_cds_mempool.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/es -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_es_cds.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/es/cfe_es_cds.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/es -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_es_erlog.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/es/cfe_es_erlog.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/es -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_es_task.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/es/cfe_es_task.c
+ld -melf_i386  -o es.o -r cfe_es_start.o cfe_es_api.o cfe_es_objtab.o cfe_es_apps.o cfe_esmempool.o cfe_es_perf.o cfe_es_shell.o cfe_es_cds_mempool.o cfe_es_cds.o cfe_es_erlog.o cfe_es_task.o
+make[2]: Leaving directory '/home/cfs/cfs-master/build/cpu1/cfe/es'
+make -C sb 
+make[2]: Entering directory '/home/cfs/cfs-master/build/cpu1/cfe/sb'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/sb -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_sb_task.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/sb/cfe_sb_task.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/sb -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_sb_api.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/sb/cfe_sb_api.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/sb -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_sb_priv.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/sb/cfe_sb_priv.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/sb -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_sb_init.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/sb/cfe_sb_init.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/sb -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_sb_buf.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/sb/cfe_sb_buf.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/sb -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_sb_util.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/sb/cfe_sb_util.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/sb -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o ccsds.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/sb/ccsds.c
+ld -melf_i386  -o sb.o -r cfe_sb_task.o cfe_sb_api.o cfe_sb_priv.o cfe_sb_init.o cfe_sb_buf.o cfe_sb_util.o ccsds.o
+make[2]: Leaving directory '/home/cfs/cfs-master/build/cpu1/cfe/sb'
+make -C evs 
+make[2]: Entering directory '/home/cfs/cfs-master/build/cpu1/cfe/evs'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/evs -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/es -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_evs.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/evs/cfe_evs.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/evs -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/es -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_evs_task.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/evs/cfe_evs_task.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/evs -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/es -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_evs_log.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/evs/cfe_evs_log.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/evs -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/es -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_evs_utils.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/evs/cfe_evs_utils.c
+ld -melf_i386  -o evs.o -r cfe_evs.o cfe_evs_task.o cfe_evs_log.o cfe_evs_utils.o
+make[2]: Leaving directory '/home/cfs/cfs-master/build/cpu1/cfe/evs'
+make -C tbl
+make[2]: Entering directory '/home/cfs/cfs-master/build/cpu1/cfe/tbl'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/tbl -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_tbl_internal.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/tbl/cfe_tbl_internal.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/tbl -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_tbl_api.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/tbl/cfe_tbl_api.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/tbl -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_tbl_task.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/tbl/cfe_tbl_task.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/tbl -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_tbl_task_cmds.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/tbl/cfe_tbl_task_cmds.c
+ld -melf_i386  -o tbl.o -r cfe_tbl_internal.o cfe_tbl_api.o cfe_tbl_task.o cfe_tbl_task_cmds.o
+make[2]: Leaving directory '/home/cfs/cfs-master/build/cpu1/cfe/tbl'
+make -C time 
+make[2]: Entering directory '/home/cfs/cfs-master/build/cpu1/cfe/time'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/time -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/es -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_time_task.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/time/cfe_time_task.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/time -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/es -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_time_api.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/time/cfe_time_api.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/time -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/es -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_time_utils.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/time/cfe_time_utils.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/time -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/es -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_time_tone.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/time/cfe_time_tone.c
+ld -melf_i386  -o time.o -r cfe_time_task.o cfe_time_api.o cfe_time_utils.o cfe_time_tone.o
+make[2]: Leaving directory '/home/cfs/cfs-master/build/cpu1/cfe/time'
+make -C fs 
+make[2]: Entering directory '/home/cfs/cfs-master/build/cpu1/cfe/fs'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/fs -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_fs_priv.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/fs/cfe_fs_priv.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/fs -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_fs_api.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/fs/cfe_fs_api.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/fs -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/build/mission_inc -I../../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfe_fs_decompress.o /home/cfs/cfs-master/cfe/fsw/cfe-core/src/fs/cfe_fs_decompress.c
+ld -melf_i386  -o fs.o -r cfe_fs_priv.o cfe_fs_api.o cfe_fs_decompress.o
+make[2]: Leaving directory '/home/cfs/cfs-master/build/cpu1/cfe/fs'
+make -C link 
+make[2]: Entering directory '/home/cfs/cfs-master/build/cpu1/cfe/link'
+gcc  -o core-linux.bin ../psp/psp.o ../osal/osal.o ../es/es.o ../sb/sb.o ../time/time.o ../evs/evs.o ../fs/fs.o  ../tbl/tbl.o -m32 -Wl,-export-dynamic -lm -lpthread -ldl -lrt
+make[2]: Leaving directory '/home/cfs/cfs-master/build/cpu1/cfe/link'
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/cfe'
+
+GSFC Classic Build Version 6.5.0
+
+>>> [BUILD] BUILD APPS <<<
+
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/ci_lab'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/ci_lab/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o ci_lab_app.o /home/cfs/cfs-master/apps/ci_lab/fsw/src/ci_lab_app.c
+gcc -m32 -shared -o ci_lab.so ci_lab_app.o 
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/ci_lab'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/to_lab'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/to_lab/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o to_lab_app.o /home/cfs/cfs-master/apps/to_lab/fsw/src/to_lab_app.c
+gcc -m32 -shared -o to_lab.so to_lab_app.o 
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/to_lab'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/cfs_lib'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cfs_lib/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfs_utils.o /home/cfs/cfs-master/apps/cfs_lib/fsw/src/cfs_utils.c
+gcc -m32 -shared -o cfs_lib.so cfs_utils.o 
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/cfs_lib'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/cf'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cf_app.o /home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c: In function ‘CF_AppMain’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:200:16: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                "CF_APP Exiting due to CFE_SB_RcvMsg error 0x%08X", Status);
+                ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c: In function ‘CF_AppInit’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:302:10: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 2 has type ‘int32 {aka long int}’ [-Wformat=]
+          "CF App: Error Registering Events,RC=0x%08X",Status);      
+          ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:311:13: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+             "Error Creating SB Pipe,RC=0x%08X",Status);
+             ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:320:13: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+             "Error Subscribing to HK Request,RC=0x%08X",Status);
+             ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:329:13: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+             "Error Subscribing to CF Gnd Cmds,RC=0x%08X",Status);
+             ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:338:13: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+             "Error Subscribing to Wakeup Cmd,RC=0x%08X",Status);
+             ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:381:17: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                 "Error Subscribing to Incoming PDUs,RC=0x%08X",Status);
+                 ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:435:10: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 2 has type ‘int32 {aka long int}’ [-Wformat=]
+          "CF App:Error Sending Initialization Event,RC=0x%08X\n", Status);
+          ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c: In function ‘CF_TableInit’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:469:13: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+             "Error Registering Config Table,RC=0x%08X",Status);
+             ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:480:13: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+             "Error Loading Config Table,RC=0x%08X",Status);
+             ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:489:13: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+             "Error from TBL Manage call for Config Table,RC=0x%08X",Status);
+             ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:499:13: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+             "Error Getting Adr for Config Tbl,RC=0x%08X",Status);
+             ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c: In function ‘CF_ChannelInit’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:525:30: warning: format ‘%x’ expects argument of type ‘unsigned int’, but argument 2 has type ‘uint8 * {aka unsigned char *}’ [-Wformat=]
+         CFE_ES_WriteToSysLog("PoolCreate failed for CF, gave adr 0x%x,size %d,stat=0x%x\n",
+                              ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:525:30: warning: format ‘%x’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c: In function ‘CF_ValidateCFConfigTable’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:629:17: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                 "Cannot set OUTGOING_FILE_CHUNK_SIZE(%d) > CF_MAX_OUTGOING_CHUNK_SIZE (%d)",
+                 ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:642:21: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                     "Ch%d EntryInUse %d must be 0-unused or 1-in use",
+                     ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:656:25: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                         "Ch%d DequeueEnable %d must be 0-disabled or 1-enabled",
+                         ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:668:25: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                         "Cannot set Ch%d OutgoingPduMsgId 0x%X > CFE_SB_HIGHEST_VALID_MSGID 0x%X",
+                         ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:682:29: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                             "Ch%d,PollDir%d EntryInUse %d must be 0-unused or 1-in use",
+                             ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:682:29: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:696:33: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                                 "Ch%d,PollDir%d EnableState %d must be 0-disabled or 1-enabled",
+                                 ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:696:33: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:708:33: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                                 "Chan %d,PollDir%d Class %d must be 1-unreliable or 2-reliable",
+                                 ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:708:33: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:719:33: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                                 "Ch%d,PollDir%d Preserve %d must be 0-delete or 1-preserve",
+                                 ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:719:33: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:734:33: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                                 "Ch%d,PollSrcPath must be terminated,have no spaces,slash at end",i);                        
+                                 ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:743:33: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                                 "Ch%d,PollDstPath must be terminated and have no spaces",i);
+                                 ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:754:33: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                                 "Cannot set Ch%d Poll %d PeerEntityId to %s,must be 2 byte, dotted decimal fmt like 0.24",
+                                 ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:754:33: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:776:14: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+              "Total Validation Errors - %d for CF Configuration Table",
+              ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c: In function ‘CF_SendPDUToEngine’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:1027:13: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘long unsigned int’ [-Wformat=]
+             "PDU Rcv Error:length %d exceeds CF_INCOMING_PDU_BUF_SIZE %d",
+             ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c: In function ‘CF_GetHandshakeSemIds’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:1065:21: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                     "SemGetId Err:Chan %d downlink PDUs cannot be throttled.0x%08X",i,Status);
+                     ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_app.c:1065:21: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 5 has type ‘int32 {aka long int}’ [-Wformat=]
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o aaa.o /home/cfs/cfs-master/apps/cf/fsw/src/PRI/aaa.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o callbacks.o /home/cfs/cfs-master/apps/cf/fsw/src/PRI/callbacks.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cfdp_lib.o /home/cfs/cfs-master/apps/cf/fsw/src/PRI/cfdp_lib.c
+/home/cfs/cfs-master/apps/cf/fsw/src/PRI/cfdp_lib.c: In function ‘m__is_pdu_sane’:
+/home/cfs/cfs-master/apps/cf/fsw/src/PRI/cfdp_lib.c:322:21: warning: comparison between ‘PDU_TYPE {aka enum <anonymous>}’ and ‘enum <anonymous>’ [-Wenum-compare]
+   if      (pdu_type == _MD_)
+                     ^
+/home/cfs/cfs-master/apps/cf/fsw/src/PRI/cfdp_lib.c:331:21: warning: comparison between ‘PDU_TYPE {aka enum <anonymous>}’ and ‘enum <anonymous>’ [-Wenum-compare]
+   else if (pdu_type == _FD_)
+                     ^
+/home/cfs/cfs-master/apps/cf/fsw/src/PRI/cfdp_lib.c:340:21: warning: comparison between ‘PDU_TYPE {aka enum <anonymous>}’ and ‘enum <anonymous>’ [-Wenum-compare]
+   else if (pdu_type == _EOF_)
+                     ^
+/home/cfs/cfs-master/apps/cf/fsw/src/PRI/cfdp_lib.c:349:21: warning: comparison between ‘PDU_TYPE {aka enum <anonymous>}’ and ‘enum <anonymous>’ [-Wenum-compare]
+   else if (pdu_type == _ACK_EOF_)
+                     ^
+/home/cfs/cfs-master/apps/cf/fsw/src/PRI/cfdp_lib.c:358:21: warning: comparison between ‘PDU_TYPE {aka enum <anonymous>}’ and ‘enum <anonymous>’ [-Wenum-compare]
+   else if (pdu_type == _NAK_)
+                     ^
+/home/cfs/cfs-master/apps/cf/fsw/src/PRI/cfdp_lib.c:367:21: warning: comparison between ‘PDU_TYPE {aka enum <anonymous>}’ and ‘enum <anonymous>’ [-Wenum-compare]
+   else if (pdu_type == _FIN_)
+                     ^
+/home/cfs/cfs-master/apps/cf/fsw/src/PRI/cfdp_lib.c:376:21: warning: comparison between ‘PDU_TYPE {aka enum <anonymous>}’ and ‘enum <anonymous>’ [-Wenum-compare]
+   else if (pdu_type == _ACK_FIN_)
+                     ^
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o default_filestore.o /home/cfs/cfs-master/apps/cf/fsw/src/PRI/default_filestore.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o default_indication.o /home/cfs/cfs-master/apps/cf/fsw/src/PRI/default_indication.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o event.o /home/cfs/cfs-master/apps/cf/fsw/src/PRI/event.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o machine_list.o /home/cfs/cfs-master/apps/cf/fsw/src/PRI/machine_list.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o message_class.o /home/cfs/cfs-master/apps/cf/fsw/src/PRI/message_class.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o mib.o /home/cfs/cfs-master/apps/cf/fsw/src/PRI/mib.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o misc.o /home/cfs/cfs-master/apps/cf/fsw/src/PRI/misc.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o nak_mem.o /home/cfs/cfs-master/apps/cf/fsw/src/PRI/nak_mem.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o nak.o /home/cfs/cfs-master/apps/cf/fsw/src/PRI/nak.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o pdu_as_string.o /home/cfs/cfs-master/apps/cf/fsw/src/PRI/pdu_as_string.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o pdu.o /home/cfs/cfs-master/apps/cf/fsw/src/PRI/pdu.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o r1.o /home/cfs/cfs-master/apps/cf/fsw/src/PRI/r1.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o r2.o /home/cfs/cfs-master/apps/cf/fsw/src/PRI/r2.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o s1.o /home/cfs/cfs-master/apps/cf/fsw/src/PRI/s1.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o s2.o /home/cfs/cfs-master/apps/cf/fsw/src/PRI/s2.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o timer.o /home/cfs/cfs-master/apps/cf/fsw/src/PRI/timer.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o utils.o /home/cfs/cfs-master/apps/cf/fsw/src/PRI/utils.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cf_callbacks.o /home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c: In function ‘CF_Indication’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:221:37: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘long unsigned int’ [-Wformat=]
+                                     "Outgoing trans started %d.%d_%d,src %s",                                                            
+                                     ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:270:33: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘long unsigned int’ [-Wformat=]
+                                 "Incoming trans started %d.%d_%d,dest %s",                                                            
+                                 ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:313:37: warning: format ‘%u’ expects argument of type ‘unsigned int’, but argument 4 has type ‘long unsigned int’ [-Wformat=]
+                                     "Out Trans %u not suspended.Buffer overflow, max %u",
+                                     ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:376:33: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘long unsigned int’ [-Wformat=]
+                                 "Incoming trans success %d.%d_%d,dest %s",                                                            
+                                 ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:405:37: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘long unsigned int’ [-Wformat=]
+                                     "Outgoing trans success %d.%d_%d,src %s",                                                            
+                                     ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:455:33: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘long unsigned int’ [-Wformat=]
+                                 "Incoming trans %d.%d_%d %s,CondCode %s,dest %s",                                                            
+                                 ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:487:33: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘long unsigned int’ [-Wformat=]
+                                 "Outgoing trans %d.%d_%d %s,CondCode %s,Src %s,Ch %d ",                                                            
+                                 ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:487:33: warning: format ‘%d’ expects argument of type ‘int’, but argument 10 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:520:31: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘long unsigned int’ [-Wformat=]
+                               "Flight Ack Timer Expired %d.%d_%d,%s",
+                               ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:530:31: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘long unsigned int’ [-Wformat=]
+                               "Flight Inactivity Timer Expired %d.%d_%d,%s",
+                               ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:540:31: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘long unsigned int’ [-Wformat=]
+                               "Flight Nack Timer Expired %d.%d_%d,%s",
+                               ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:550:31: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘long unsigned int’ [-Wformat=]
+                               "Transaction Susupended %d.%d_%d,%s",
+                               ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:559:31: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘long unsigned int’ [-Wformat=]
+                               "Transaction Resumed %d.%d_%d,%s",
+                               ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:572:31: warning: format ‘%d’ expects argument of type ‘int’, but argument 7 has type ‘long unsigned int’ [-Wformat=]
+                               "Fault %d,%d.%d_%d,%s",
+                               ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:584:31: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘long unsigned int’ [-Wformat=]
+                               "Indication:Transaction Abandon %d.%d_%d,%s",
+                               ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c: In function ‘CF_PduOutputSend’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:788:13: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘long unsigned int’ [-Wformat=]
+             "Dropping PDU,cannot find channel number for TransId %d.%d_%d",            
+             ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:818:17: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                 "Dropping PDU,Ch %d,Msg Size %d > Max %d,TransId %d.%d_%d",            
+                 ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:818:17: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:818:17: warning: format ‘%d’ expects argument of type ‘int’, but argument 9 has type ‘long unsigned int’ [-Wformat=]
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:846:13: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+             "Dropping PDU,Ch %d,Failed to get SB buffer %d,TransId %d.%d_%d",            
+             ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:846:13: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:846:13: warning: format ‘%d’ expects argument of type ‘int’, but argument 8 has type ‘long unsigned int’ [-Wformat=]
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c: In function ‘CF_RenameFile’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:976:34: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                                  "File write error! Should have written  = %d bytes but only wrote %d bytes to the file!",
+                                  ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:976:34: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c: In function ‘CF_Fclose’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:1329:28: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                            "Could not close file from callback function! OS_close Val = %d",CloseVal);
+                            ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c: In function ‘CF_DebugEvent’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:1430:23: warning: format not a string literal and no format arguments [-Wformat-security]
+                       BigBuf);
+                       ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c: In function ‘CF_InfoEvent’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:1474:32: warning: format not a string literal and no format arguments [-Wformat-security]
+                                BigBuf);
+                                ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c: In function ‘CF_WarningEvent’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:1515:23: warning: format not a string literal and no format arguments [-Wformat-security]
+                       BigBuf);            
+                       ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c: In function ‘CF_ErrorEvent’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_callbacks.c:1556:23: warning: format not a string literal and no format arguments [-Wformat-security]
+                       BigBuf);            
+                       ^
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cf_playback.o /home/cfs/cfs-master/apps/cf/fsw/src/cf_playback.c
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_playback.c: In function ‘CF_PlaybackFileCmd’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_playback.c:170:17: warning: format ‘%u’ expects argument of type ‘unsigned int’, but argument 5 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                 "CF:Playback File Cmd Error, Chan %u Pending Queue is full %u.",
+                 ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_playback.c: In function ‘CF_QueueDirectoryFiles’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_playback.c:416:13: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘os_dirp_t {aka struct __dirstream *}’ [-Wformat=]
+             "Playback Dir Error %d,cannot open directory %s",dirp,Ptr->SrcPath);
+             ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_playback.c:452:17: warning: format ‘%u’ expects argument of type ‘unsigned int’, but argument 6 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                 "Queue Dir %s Aborted,Ch %d Pending Queue is Full,%u Entries",
+                 ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_playback.c: In function ‘CF_AllocQueueEntry’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_playback.c:615:10: warning: format ‘%x’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+          "Memory Allocation Error, GetPoolBuf Returned 0x%x, dec %d",Stat,Stat);                       
+          ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_playback.c:615:10: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘int32 {aka long int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_playback.c: In function ‘CF_DeallocQueueEntry’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_playback.c:669:17: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                 "Deallocation failed for queue entry. Stat = %d",Stat);
+                 ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_playback.c: In function ‘CF_CheckPollDirs’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_playback.c:1242:25: warning: variable ‘Status’ set but not used [-Wunused-but-set-variable]
+     int32               Status;
+                         ^
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cf_utils.o /home/cfs/cfs-master/apps/cf/fsw/src/cf_utils.c
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_utils.c: In function ‘CF_BuildPutRequest’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_utils.c:478:17: warning: variable ‘Chan’ set but not used [-Wunused-but-set-variable]
+     uint32      Chan;
+                 ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_utils.c: In function ‘CF_MoveUpNodeActiveToHistory’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_utils.c:763:13: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+             "TransId %s_%d not found in CF_MoveUpNodeActiveToHistory",SrcEntity,TransNum);               
+             ^
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cf_cmds.o /home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c: In function ‘CF_SetMibCmd’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c:571:21: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                     "Cannot set OUTGOING_FILE_CHUNK_SIZE(%d) > CF_MAX_OUTGOING_CHUNK_SIZE(%d)",
+                     ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c: In function ‘CF_WriteQueueInfo’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c:845:23: warning: format ‘%x’ expects argument of type ‘unsigned int’, but argument 5 has type ‘int32 {aka long int}’ [-Wformat=]
+                       "WriteQueueCmd:Error creating file %s, stat=0x%x",
+                       ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c:888:23: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                       "%s written:Size=%d,Entries=%d",
+                       ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c:888:23: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c: In function ‘CF_WriteActiveTransInfo’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c:972:23: warning: format ‘%x’ expects argument of type ‘unsigned int’, but argument 5 has type ‘int32 {aka long int}’ [-Wformat=]
+                       "SendActiveTransCmd:Error creating file %s, stat=0x%x",
+                       ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c:1018:23: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                       "%s written:Size=%d,Entries=%d",
+                       ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c:1018:23: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c: In function ‘CF_SendTransDataCmd’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c:1065:25: warning: variable ‘RetStat’ set but not used [-Wunused-but-set-variable]
+     boolean             RetStat;
+                         ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c: In function ‘CF_DequeueNodeCmd’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c:1480:21: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                     "DequeueNodeCmd %s Removed from %s Queue,Stat %d",
+                     ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c:1526:21: warning: format ‘%d’ expects argument of type ‘int’, but argument 7 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                     "DequeueNodeCmd %s Removed from Chan %u,%s Queue,Stat %d",
+                     ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c: In function ‘CF_PurgeQueueCmd’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c:1596:21: warning: format ‘%u’ expects argument of type ‘unsigned int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                     "PurgeQueueCmd Removed %u Nodes from Uplink History Queue",
+                     ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c:1645:21: warning: format ‘%u’ expects argument of type ‘unsigned int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                     "PurgeQueueCmd Removed %u Nodes from Chan %u,%s Queue",
+                     ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c: In function ‘CF_QuickStatusCmd’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c:2015:25: warning: format ‘%u’ expects argument of type ‘unsigned int’, but argument 5 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                         "Trans %s_%u %s Stat=%s,CondCode=%s",
+                         ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c: In function ‘CF_GiveTakeSemaphoreCmd’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c:2112:25: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘int32 {aka long int}’ [-Wformat=]
+                         "CF Semaphore %s error on chan %u,Rtn Val %d",
+                         ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c: In function ‘CF_AutoSuspendEnCmd’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c:2151:25: warning: format ‘%u’ expects argument of type ‘unsigned int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                         "Auto Suspend enable flag set to %u",
+                         ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c: In function ‘CF_VerifyCmdLength’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c:2180:11: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+           "Cmd Msg with Bad length Rcvd: ID = 0x%X, CC = %d, Exp Len = %d, Len = %d",
+           ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c: In function ‘CF_FileWriteByteCntErr’:
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c:2232:23: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                       "File write,byte cnt err,file %s,request=%d,actual=%d",
+                       ^
+/home/cfs/cfs-master/apps/cf/fsw/src/cf_cmds.c:2232:23: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+gcc -m32 -shared -o cf.so cf_app.o aaa.o callbacks.o cfdp_lib.o default_filestore.o default_indication.o event.o machine_list.o message_class.o mib.o misc.o nak_mem.o nak.o pdu_as_string.o pdu.o r1.o r2.o s1.o s2.o timer.o utils.o cf_callbacks.o cf_playback.o cf_utils.o cf_cmds.o 
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/cf'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/cs'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cs/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cs_compute.o /home/cfs/cfs-master/apps/cs/fsw/src/cs_compute.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cs/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cs_eeprom_cmds.o /home/cfs/cfs-master/apps/cs/fsw/src/cs_eeprom_cmds.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cs/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cs_table_processing.o /home/cfs/cfs-master/apps/cs/fsw/src/cs_table_processing.c
+/home/cfs/cfs-master/apps/cs/fsw/src/cs_table_processing.c: In function ‘CS_HandleTableUpdate’:
+/home/cfs/cfs-master/apps/cs/fsw/src/cs_table_processing.c:1032:21: warning: variable ‘ManageResult1’ set but not used [-Wunused-but-set-variable]
+     int32           ManageResult1  = CFE_SUCCESS;
+                     ^
+/home/cfs/cfs-master/apps/cs/fsw/src/cs_table_processing.c:1031:21: warning: variable ‘ReleaseResult1’ set but not used [-Wunused-but-set-variable]
+     int32           ReleaseResult1 = CFE_SUCCESS;
+                     ^
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cs/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cs_utils.o /home/cfs/cfs-master/apps/cs/fsw/src/cs_utils.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cs/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cs_table_cmds.o /home/cfs/cfs-master/apps/cs/fsw/src/cs_table_cmds.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cs/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cs_cmds.o /home/cfs/cfs-master/apps/cs/fsw/src/cs_cmds.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cs/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cs_app_cmds.o /home/cfs/cfs-master/apps/cs/fsw/src/cs_app_cmds.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cs/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cs_memory_cmds.o /home/cfs/cfs-master/apps/cs/fsw/src/cs_memory_cmds.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cs/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o cs_app.o /home/cfs/cfs-master/apps/cs/fsw/src/cs_app.c
+gcc -m32 -shared -o cs.so cs_compute.o cs_eeprom_cmds.o cs_table_processing.o cs_utils.o cs_table_cmds.o cs_cmds.o cs_app_cmds.o cs_memory_cmds.o cs_app.o 
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/cs'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/ds'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/ds/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o ds_app.o /home/cfs/cfs-master/apps/ds/fsw/src/ds_app.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/ds/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o ds_cmds.o /home/cfs/cfs-master/apps/ds/fsw/src/ds_cmds.c
+/home/cfs/cfs-master/apps/ds/fsw/src/ds_cmds.c: In function ‘DS_CmdAddMID’:
+/home/cfs/cfs-master/apps/ds/fsw/src/ds_cmds.c:1432:11: warning: variable ‘HashTableIndex’ set but not used [-Wunused-but-set-variable]
+     int32 HashTableIndex;
+           ^
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/ds/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o ds_file.o /home/cfs/cfs-master/apps/ds/fsw/src/ds_file.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/ds/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o ds_table.o /home/cfs/cfs-master/apps/ds/fsw/src/ds_table.c
+gcc -m32 -shared -o ds.so ds_app.o ds_cmds.o ds_file.o ds_table.o 
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/ds'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/fm'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/fm/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o fm_app.o /home/cfs/cfs-master/apps/fm/fsw/src/fm_app.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/fm/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o fm_cmds.o /home/cfs/cfs-master/apps/fm/fsw/src/fm_cmds.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/fm/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o fm_cmd_utils.o /home/cfs/cfs-master/apps/fm/fsw/src/fm_cmd_utils.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/fm/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o fm_tbl.o /home/cfs/cfs-master/apps/fm/fsw/src/fm_tbl.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/fm/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o fm_child.o /home/cfs/cfs-master/apps/fm/fsw/src/fm_child.c
+gcc -m32 -shared -o fm.so fm_app.o fm_cmds.o fm_cmd_utils.o fm_tbl.o fm_child.o 
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/fm'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/hk'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/hk/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o hk_app.o /home/cfs/cfs-master/apps/hk/fsw/src/hk_app.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/hk/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o hk_utils.o /home/cfs/cfs-master/apps/hk/fsw/src/hk_utils.c
+gcc -m32 -shared -o hk.so hk_app.o hk_utils.o 
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/hk'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/hs'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/hs/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o hs_app.o /home/cfs/cfs-master/apps/hs/fsw/src/hs_app.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/hs/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o hs_monitors.o /home/cfs/cfs-master/apps/hs/fsw/src/hs_monitors.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/hs/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o hs_cmds.o /home/cfs/cfs-master/apps/hs/fsw/src/hs_cmds.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/hs/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o hs_custom.o /home/cfs/cfs-master/apps/hs/fsw/src/hs_custom.c
+gcc -m32 -shared -o hs.so hs_app.o hs_monitors.o hs_cmds.o hs_custom.o 
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/hs'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/lc'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/lc/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o lc_app.o /home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c: In function ‘LC_AppMain’:
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:362:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Task terminating, err = 0x%08X", Status);
+                           ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:367:30: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 2 has type ‘int32 {aka long int}’ [-Wformat=]
+         CFE_ES_WriteToSysLog("LC task terminating, err = 0x%08X\n", Status);
+                              ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:273:13: warning: variable ‘initSuccess’ set but not used [-Wunused-but-set-variable]
+     boolean initSuccess = TRUE;
+             ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c: In function ‘LC_EvsInit’:
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:473:29: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 2 has type ‘int32 {aka long int}’ [-Wformat=]
+        CFE_ES_WriteToSysLog("LC App: Error Registering For Event Services, RC = 0x%08X\n", Status);
+                             ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c: In function ‘LC_SbInit’:
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:511:26: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                          "Error Creating LC Pipe, RC=0x%08X", Status);
+                          ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:522:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 5 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Error Subscribing to HK Request, MID=0x%04X, RC=0x%08X", 
+                           ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:534:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 5 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Error Subscribing to GND CMD, MID=0x%04X, RC=0x%08X", 
+                           ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:546:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 5 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Error Subscribing to Sample CMD, MID=0x%04X, RC=0x%08X", 
+                           ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c: In function ‘LC_TableInit’:
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:667:31: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                               "Error getting WDT address, RC=0x%08X", Result);
+                               ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:679:31: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                               "Error getting ADT address, RC=0x%08X", Result);
+                               ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:709:31: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                               "Default state loaded and written to CDS, activity mask = 0x%08X",
+                               ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:715:31: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                               "LC use of Critical Data Store disabled, activity mask = 0x%08X",
+                               ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c: In function ‘LC_CreateResultTables’:
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:752:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Error registering WRT, RC=0x%08X", Result);
+                           ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:761:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Error getting WRT address, RC=0x%08X", Result);
+                           ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:777:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Error registering ART, RC=0x%08X", Result);
+                           ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:786:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Error getting ART address, RC=0x%08X", Result);
+                           ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c: In function ‘LC_CreateDefinitionTables’:
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:870:26: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                          "Error registering WDT, RC=0x%08X", Result);
+                          ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:916:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Error registering ADT, RC=0x%08X", Result);
+                           ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:948:30: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                              "Error re-registering WDT, RC=0x%08X", Result);
+                              ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:808:13: warning: variable ‘HadActiveCDS’ set but not used [-Wunused-but-set-variable]
+     boolean HadActiveCDS;
+             ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c: In function ‘LC_CreateTaskCDS’:
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:1000:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Error registering WRT CDS Area, RC=0x%08X", Result);
+                           ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:1034:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Error registering ART CDS Area, RC=0x%08X", Result);
+                           ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:1080:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Error registering application data CDS Area, RC=0x%08X", Result);
+                           ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c: In function ‘LC_LoadDefaultTables’:
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:1114:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Error (RC=0x%08X) Loading WDT with '%s'", Result, LC_WDT_FILENAME);
+                           ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:1126:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Error getting WDT address, RC=0x%08X", Result);
+                           ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:1145:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Error (RC=0x%08X) Loading ADT with '%s'", Result, LC_ADT_FILENAME);
+                           ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_app.c:1157:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Error getting ADT address, RC=0x%08X", Result);
+                           ^
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/lc/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o lc_action.o /home/cfs/cfs-master/apps/lc/fsw/src/lc_action.c
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_action.c: In function ‘LC_SampleSingleAP’:
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_action.c:324:29: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                             "AP failed while LC App passive: AP = %d, FailCount = %d, RTS = %d",
+                             ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_action.c:344:29: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                             "AP failed while passive: AP = %d, FailCount = %d, RTS = %d",
+                             ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_action.c: In function ‘LC_EvaluateRPN’:
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_action.c:600:16: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘long int’ [-Wformat=]
+                "AP has illegal RPN expression: AP = %d, LastOperand = %d, StackPtr = %d",
+                ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_action.c:600:16: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘int32 {aka long int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_action.c: In function ‘LC_ValidateADT’:
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_action.c:734:25: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                         "ADT verify RPN err: AP = %d, Index = %d, StackDepth = %d",
+                         ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_action.c:734:25: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘int32 {aka long int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_action.c:734:25: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘int32 {aka long int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_action.c:740:25: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                         "ADT verify err: AP = %d, Err = %d, State = %d, RTS = %d, FailCnt = %d, EvtType = %d",
+                         ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_action.c:740:25: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘int32 {aka long int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_action.c:753:22: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                      "ADT verify results: good = %d, bad = %d, unused = %d",
+                      ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_action.c:753:22: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘int32 {aka long int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_action.c:753:22: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘int32 {aka long int}’ [-Wformat=]
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/lc/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o lc_watch.o /home/cfs/cfs-master/apps/lc/fsw/src/lc_watch.c
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_watch.c: In function ‘LC_CreateHashTable’:
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_watch.c:489:30: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 5 has type ‘int32 {aka long int}’ [-Wformat=]
+                              "Error unsubscribing watchpoint: MID=0x%04X, RC=0x%08X", 
+                              ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_watch.c: In function ‘LC_AddWatchpoint’:
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_watch.c:610:16: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 5 has type ‘int32 {aka long int}’ [-Wformat=]
+                "Error subscribing watchpoint: MID=0x%04X, RC=0x%08X",
+                ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_watch.c: In function ‘LC_FloatCompare’:
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_watch.c:1138:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 5 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                           "WP data value is a float NAN: WP = %d, Value = 0x%08X",
+                           ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_watch.c: In function ‘LC_WPOffsetValid’:
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_watch.c:1222:17: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                 "WP offset error: MID = %d, WP = %d, Offset = %d, DataSize = %d, MsgLen = %d",
+                 ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_watch.c:1222:17: warning: format ‘%d’ expects argument of type ‘int’, but argument 7 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_watch.c: In function ‘LC_ValidateWDT’:
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_watch.c:1541:25: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                         "WDT verify float err: WP = %d, Err = %d, ComparisonValue = 0x%08X",
+                         ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_watch.c:1541:25: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘int32 {aka long int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_watch.c:1541:25: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 6 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_watch.c:1547:25: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                         "WDT verify err: WP = %d, Err = %d, DType = %d, Oper = %d, MID = %d",
+                         ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_watch.c:1547:25: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘int32 {aka long int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_watch.c:1560:22: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                      "WDT verify results: good = %d, bad = %d, unused = %d",
+                      ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_watch.c:1560:22: warning: format ‘%d’ expects argument of type ‘int’, but argument 5 has type ‘int32 {aka long int}’ [-Wformat=]
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_watch.c:1560:22: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘int32 {aka long int}’ [-Wformat=]
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/lc/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o lc_cmds.o /home/cfs/cfs-master/apps/lc/fsw/src/lc_cmds.c
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_cmds.c: In function ‘LC_ManageTables’:
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_cmds.c:1348:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Error getting WDT address, RC=0x%08X", Result);
+                           ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_cmds.c:1364:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Error getting ADT address, RC=0x%08X", Result);
+                           ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_cmds.c: In function ‘LC_UpdateTaskCDS’:
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_cmds.c:1391:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Unable to update watchpoint results in CDS, RC=0x%08X", Result);
+                           ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_cmds.c:1403:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Unable to update actionpoint results in CDS, RC=0x%08X", Result);
+                           ^
+/home/cfs/cfs-master/apps/lc/fsw/src/lc_cmds.c:1420:27: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                           "Unable to update application data in CDS, RC=0x%08X", Result);
+                           ^
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/lc/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o lc_custom.o /home/cfs/cfs-master/apps/lc/fsw/src/lc_custom.c
+gcc -m32 -shared -o lc.so lc_app.o lc_action.o lc_watch.o lc_cmds.o lc_custom.o  
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/lc'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/md'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/md/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o md_app.o /home/cfs/cfs-master/apps/md/fsw/src/md_app.c
+/home/cfs/cfs-master/apps/md/fsw/src/md_app.c: In function ‘MD_AppMain’:
+/home/cfs/cfs-master/apps/md/fsw/src/md_app.c:311:16: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 2 has type ‘int32 {aka long int}’ [-Wformat=]
+               ("MD_APP: Call to CFE_ES_RegisterApp Failed:RC=0x%08X\n",Status);
+                ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_app.c:327:31: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 2 has type ‘int32 {aka long int}’ [-Wformat=]
+          CFE_ES_WriteToSysLog("MD:Application Init Failed,RC=0x%08X\n", Status);      
+                               ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_app.c:355:21: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                     "SB Pipe Read Error, App will exit. Pipe Return Status = 0x%08X", Status);         
+                     ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_app.c: In function ‘MD_AppInit’:
+/home/cfs/cfs-master/apps/md/fsw/src/md_app.c:454:19: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 2 has type ‘int32 {aka long int}’ [-Wformat=]
+                  ("MD_APP:Call to CFE_EVS_Register Failed:RC=0x%08X\n", Status);
+                   ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_app.c: In function ‘MD_InitSoftwareBusServices’:
+/home/cfs/cfs-master/apps/md/fsw/src/md_app.c:565:29: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 2 has type ‘int32 {aka long int}’ [-Wformat=]
+        CFE_ES_WriteToSysLog("MD_APP: Error creating cmd pipe:RC=0x%08X\n",
+                             ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_app.c:581:17: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 2 has type ‘int32 {aka long int}’ [-Wformat=]
+                ("MD_APP: Error subscribing to HK Request:RC=0x%08X\n", Status);
+                 ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_app.c:598:20: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 2 has type ‘int32 {aka long int}’ [-Wformat=]
+                   ("MD_APP:Error subscribing to gnd cmds:RC=0x%08X\n", Status);
+                    ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_app.c:615:14: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 2 has type ‘int32 {aka long int}’ [-Wformat=]
+             ("MD_APP:Error subscribing to wakeup message:RC=0x%08X\n", Status);
+              ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_app.c: In function ‘MD_InitTableServices’:
+/home/cfs/cfs-master/apps/md/fsw/src/md_app.c:678:1: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 5 has type ‘int32 {aka long int}’ [-Wformat=]
+ "Didn't update MD tbl #%d due to unexpected CFE_TBL_GetAddress return: 0x%08X", 
+ ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_app.c:727:31: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                               "CFE_TBL_Register error 0x%08X received for tbl#%d",
+                               ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_app.c:746:18: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 2 has type ‘int32 {aka long int}’ [-Wformat=]
+                 ("MD_APP: Error 0x%08X received loading tbl#%d\n",
+                  ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_app.c: In function ‘MD_ManageDwellTable’:
+/home/cfs/cfs-master/apps/md/fsw/src/md_app.c:832:1: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 5 has type ‘int32 {aka long int}’ [-Wformat=]
+ "Didn't update MD tbl #%d due to unexpected CFE_TBL_GetAddress return: 0x%08X", 
+ ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_app.c:847:30: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int32 {aka long int}’ [-Wformat=]
+                              "Received unexpected error 0x%08X from CFE_TBL_GetStatus for tbl #%d", 
+                              ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_app.c: In function ‘MD_ExecRequest’:
+/home/cfs/cfs-master/apps/md/fsw/src/md_app.c:899:12: warning: format ‘%d’ expects argument of type ‘int’, but argument 6 has type ‘uint32 {aka const long unsigned int}’ [-Wformat=]
+            "Cmd Msg with Bad length Rcvd: ID = 0x%04X, CC = %d, Exp Len = %d, Len = %d",
+            ^
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/md/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o md_utils.o /home/cfs/cfs-master/apps/md/fsw/src/md_utils.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/md/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o md_cmds.o /home/cfs/cfs-master/apps/md/fsw/src/md_cmds.c
+/home/cfs/cfs-master/apps/md/fsw/src/md_cmds.c: In function ‘MD_ProcessJamCmd’:
+/home/cfs/cfs-master/apps/md/fsw/src/md_cmds.c:284:34: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                                  "Jam Cmd rejected because address 0x%08X is not in a valid range", 
+                                  ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_cmds.c:302:34: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                                  "Jam Cmd rejected because address 0x%08X is not 32-bit aligned", 
+                                  ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_cmds.c:310:34: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                                  "Jam Cmd rejected because address 0x%08X is not 16-bit aligned", 
+                                  ^
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/md/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o md_dwell_pkt.o /home/cfs/cfs-master/apps/md/fsw/src/md_dwell_pkt.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/md/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o md_dwell_tbl.o /home/cfs/cfs-master/apps/md/fsw/src/md_dwell_tbl.c
+/home/cfs/cfs-master/apps/md/fsw/src/md_dwell_tbl.c: In function ‘MD_TableValidationFunc’:
+/home/cfs/cfs-master/apps/md/fsw/src/md_dwell_tbl.c:191:9: warning: format ‘%d’ expects argument of type ‘int’, but argument 4 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+         "Dwell Table rejected because value of enable flag (%d) is invalid", 
+         ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_dwell_tbl.c:222:16: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 5 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                "Dwell Table rejected because address (sym='%s'/offset=0x%08X) in entry #%d couldn't be resolved", 
+                ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_dwell_tbl.c:230:17: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 5 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                 "Dwell Table rejected because address (sym='%s'/offset=0x%08X) in entry #%d was out of range", 
+                 ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_dwell_tbl.c:246:17: warning: format ‘%X’ expects argument of type ‘unsigned int’, but argument 5 has type ‘uint32 {aka long unsigned int}’ [-Wformat=]
+                 "Dwell Table rejected because address (sym='%s'/offset=0x%08X) in entry #%d not properly aligned for %d-byte dwell", 
+                 ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_dwell_tbl.c: In function ‘MD_UpdateTableEnabledField’:
+/home/cfs/cfs-master/apps/md/fsw/src/md_dwell_tbl.c:439:10: warning: variable ‘GetAddressResult’ set but not used [-Wunused-but-set-variable]
+    int32 GetAddressResult;
+          ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_dwell_tbl.c: In function ‘MD_UpdateTableDwellEntry’:
+/home/cfs/cfs-master/apps/md/fsw/src/md_dwell_tbl.c:469:10: warning: variable ‘GetAddressResult’ set but not used [-Wunused-but-set-variable]
+    int32 GetAddressResult;
+          ^
+/home/cfs/cfs-master/apps/md/fsw/src/md_dwell_tbl.c: In function ‘MD_UpdateTableSignature’:
+/home/cfs/cfs-master/apps/md/fsw/src/md_dwell_tbl.c:506:10: warning: variable ‘GetAddressResult’ set but not used [-Wunused-but-set-variable]
+    int32 GetAddressResult;
+          ^
+gcc -m32 -shared -o md.so md_app.o md_utils.o md_cmds.o md_dwell_pkt.o md_dwell_tbl.o  
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/md'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/mm'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/mm/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o mm_app.o /home/cfs/cfs-master/apps/mm/fsw/src/mm_app.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/mm/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o mm_load.o /home/cfs/cfs-master/apps/mm/fsw/src/mm_load.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/mm/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o mm_dump.o /home/cfs/cfs-master/apps/mm/fsw/src/mm_dump.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/mm/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o mm_mem32.o /home/cfs/cfs-master/apps/mm/fsw/src/mm_mem32.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/mm/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o mm_mem16.o /home/cfs/cfs-master/apps/mm/fsw/src/mm_mem16.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/mm/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o mm_mem8.o /home/cfs/cfs-master/apps/mm/fsw/src/mm_mem8.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/mm/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o mm_utils.o /home/cfs/cfs-master/apps/mm/fsw/src/mm_utils.c
+gcc -m32 -shared -o mm.so mm_app.o mm_load.o mm_dump.o mm_mem32.o mm_mem16.o mm_mem8.o mm_utils.o 
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/mm'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/sc'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/sc/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o sc_app.o /home/cfs/cfs-master/apps/sc/fsw/src/sc_app.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/sc/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o sc_atsrq.o /home/cfs/cfs-master/apps/sc/fsw/src/sc_atsrq.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/sc/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o sc_cmds.o /home/cfs/cfs-master/apps/sc/fsw/src/sc_cmds.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/sc/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o sc_loads.o /home/cfs/cfs-master/apps/sc/fsw/src/sc_loads.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/sc/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o sc_rtsrq.o /home/cfs/cfs-master/apps/sc/fsw/src/sc_rtsrq.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/sc/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o sc_state.o /home/cfs/cfs-master/apps/sc/fsw/src/sc_state.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/sc/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o sc_utils.o /home/cfs/cfs-master/apps/sc/fsw/src/sc_utils.c
+gcc -m32 -shared -o sc.so sc_app.o sc_atsrq.o sc_cmds.o sc_loads.o sc_rtsrq.o sc_state.o sc_utils.o 
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/sc'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/sch'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/sch/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o sch_app.o /home/cfs/cfs-master/apps/sch/fsw/src/sch_app.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/sch/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o sch_cmds.o /home/cfs/cfs-master/apps/sch/fsw/src/sch_cmds.c
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/sch/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o sch_custom.o /home/cfs/cfs-master/apps/sch/fsw/src/sch_custom.c
+gcc -m32 -shared -o sch.so sch_app.o sch_cmds.o sch_custom.o 
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/sch'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/sch'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/sch/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o sch_api.o /home/cfs/cfs-master/apps/sch/fsw/src/sch_api.c
+gcc -m32 -shared -o schlib.so sch_api.o 
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/sch'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/whe'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/whe/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -DOS_DEBUG_LEVEL=3 -c -o whe.o /home/cfs/cfs-master/apps/whe/fsw/src/whe.c
+/home/cfs/cfs-master/apps/whe/fsw/src/whe.c:298:6: warning: function declaration isn’t a prototype [-Wstrict-prototypes]
+ void WHE_UpateObs()
+      ^
+gcc -m32 -shared -o whe.so whe.o 
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/whe'
+
+GSFC Classic Build Version 6.5.0
+
+>>> [BUILD] BUILD APP TABLES <<<
+
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/ds'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/ds/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc -I../ds   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -c -o ds_file_tbl.o /home/cfs/cfs-master/apps/ds/fsw/tables/ds_file_tbl.c
+../elf2cfetbl/elf2cfetbl ds_file_tbl.o
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/ds/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc -I../ds   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -c -o ds_filter_tbl.o /home/cfs/cfs-master/apps/ds/fsw/tables/ds_filter_tbl.c
+../elf2cfetbl/elf2cfetbl ds_filter_tbl.o
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/ds'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/fm'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/fm/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc -I../fm   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -c -o fm_freespace.o /home/cfs/cfs-master/apps/fm/fsw/tables/fm_freespace.c
+../elf2cfetbl/elf2cfetbl fm_freespace.o
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/fm'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/hk'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/hk/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -c -o hk_cpy_tbl.o /home/cfs/cfs-master/apps/hk/fsw/tables/hk_cpy_tbl.c
+../elf2cfetbl/elf2cfetbl hk_cpy_tbl.o
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/hk'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/lc'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/lc/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc -I../lc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -c -o lc_def_adt.o /home/cfs/cfs-master/apps/lc/fsw/tables/lc_def_adt.c
+../elf2cfetbl/elf2cfetbl lc_def_adt.o
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/lc/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc -I../lc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -c -o lc_def_wdt.o /home/cfs/cfs-master/apps/lc/fsw/tables/lc_def_wdt.c
+../elf2cfetbl/elf2cfetbl lc_def_wdt.o
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/lc'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/sc'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/sc/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc -I../sc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -c -o sc_ats1.o /home/cfs/cfs-master/apps/sc/fsw/tables/sc_ats1.c
+../elf2cfetbl/elf2cfetbl sc_ats1.o
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/sc/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc -I../sc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -c -o sc_rts001.o /home/cfs/cfs-master/apps/sc/fsw/tables/sc_rts001.c
+../elf2cfetbl/elf2cfetbl sc_rts001.o
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/sc/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc -I../sc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -c -o sc_rts002.o /home/cfs/cfs-master/apps/sc/fsw/tables/sc_rts002.c
+../elf2cfetbl/elf2cfetbl sc_rts002.o
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/sc'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/sch'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/sch/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -c -o sch_def_msgtbl.o /home/cfs/cfs-master/apps/sch/fsw/tables/sch_def_msgtbl.c
+../elf2cfetbl/elf2cfetbl sch_def_msgtbl.o
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/sch/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -c -o sch_def_schtbl.o /home/cfs/cfs-master/apps/sch/fsw/tables/sch_def_schtbl.c
+../elf2cfetbl/elf2cfetbl sch_def_schtbl.o
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/sch'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/cf'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/cf/fsw/src -I/home/cfs/cfs-master/apps/cf/fsw/src/PRI -I/home/cfs/cfs-master/apps/cf/fsw/src/PUB -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -c -o cf_cfgtable.o /home/cfs/cfs-master/apps/cf/fsw/tables/cf_cfgtable.c
+/home/cfs/cfs-master/apps/cf/fsw/tables/cf_cfgtable.c:59:26: warning: ‘CFE_TBL_FileDef’ defined but not used [-Wunused-variable]
+ static CFE_TBL_FileDef_t CFE_TBL_FileDef =
+                          ^
+../elf2cfetbl/elf2cfetbl cf_cfgtable.o
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/cf'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/hs'
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/hs/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc -I../hs   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -c -o hs_amt.o /home/cfs/cfs-master/apps/hs/fsw/tables/hs_amt.c
+../elf2cfetbl/elf2cfetbl hs_amt.o
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/hs/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc -I../hs   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -c -o hs_emt.o /home/cfs/cfs-master/apps/hs/fsw/tables/hs_emt.c
+../elf2cfetbl/elf2cfetbl hs_emt.o
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/hs/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc -I../hs   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -c -o hs_xct.o /home/cfs/cfs-master/apps/hs/fsw/tables/hs_xct.c
+../elf2cfetbl/elf2cfetbl hs_xct.o
+gcc  -I/home/cfs/cfs-master/osal/src/os/inc -I/home/cfs/cfs-master/cfe/fsw/cfe-core/src/inc -I/home/cfs/cfs-master/psp/fsw/pc-linux/inc -I/home/cfs/cfs-master/psp/fsw/inc -I/home/cfs/cfs-master/apps/inc -I/home/cfs/cfs-master/apps/hs/fsw/src -I/home/cfs/cfs-master/build/mission_inc -I../cfe/inc -I../inc -I../hs   -D_EL -DENDIAN=_EL -DSOFTWARE_LITTLE_BIT_ORDER  -D__ix86__ -D_ix86_ -D_LINUX_OS_  -Dposix -DX86PC -DBUILD= -D_REENTRANT -D _EMBED_   -m32  -Wall -Wstrict-prototypes -g -O0 -c -o hs_mat.o /home/cfs/cfs-master/apps/hs/fsw/tables/hs_mat.c
+../elf2cfetbl/elf2cfetbl hs_mat.o
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/hs'
+
+>>> [POST-BUILD] INSTALL CORE <<<
+
+make -C cfe install
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/cfe'
+make -C link install
+make[2]: Entering directory '/home/cfs/cfs-master/build/cpu1/cfe/link'
+cp core-linux.bin ../../exe
+make[2]: Leaving directory '/home/cfs/cfs-master/build/cpu1/cfe/link'
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/cfe'
+
+>>> [POST-BUILD] INSTALL APPS <<<
+
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/ci_lab'
+cp ci_lab.so ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/ci_lab'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/to_lab'
+cp to_lab.so ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/to_lab'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/cfs_lib'
+cp cfs_lib.so ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/cfs_lib'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/cf'
+cp cf.so ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/cf'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/cs'
+cp cs.so ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/cs'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/ds'
+cp ds.so ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/ds'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/fm'
+cp fm.so ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/fm'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/hk'
+cp hk.so ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/hk'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/hs'
+cp hs.so ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/hs'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/lc'
+cp lc.so ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/lc'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/md'
+cp md.so ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/md'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/mm'
+cp mm.so ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/mm'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/sc'
+cp sc.so ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/sc'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/sch'
+cp sch.so ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/sch'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/sch'
+cp schlib.so ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/sch'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/whe'
+cp whe.so ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/whe'
+
+>>> [POST-BUILD] INSTALL APP TABLES <<<
+
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/ds'
+cp ds_file_tbl.tbl ds_filter_tbl.tbl ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/ds'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/fm'
+cp fm_freespace.tbl ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/fm'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/hk'
+cp hk_cpy_tbl.tbl ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/hk'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/lc'
+cp lc_def_adt.tbl lc_def_wdt.tbl ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/lc'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/sc'
+cp sc_ats1.tbl sc_rts001.tbl sc_rts002.tbl ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/sc'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/sch'
+cp sch_def_msgtbl.tbl sch_def_schtbl.tbl ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/sch'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/cf'
+cp cf_cfgtable.tbl  ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/cf'
+make[1]: Entering directory '/home/cfs/cfs-master/build/cpu1/hs'
+cp hs_amt.tbl hs_emt.tbl hs_xct.tbl hs_mat.tbl ../exe
+make[1]: Leaving directory '/home/cfs/cfs-master/build/cpu1/hs'
+
+>>> [POST-BUILD] COPY BUILT FILES TO <CFS_PROM_APPS> <<<
+ >> Create Directories <<
+mkdir -p ./exe/cf
+mkdir -p ./exe/cf/apps
+mkdir -p ./exe/cf/log
+mkdir -p ./exe/cf/upload
+mkdir -p ./exe/cf/download
+mkdir -p ./exe/ram
+
+ >> Change Permissions <<
+chmod 775 ./exe/*.bin 
+chmod 644 ./exe/*.so 
+chmod 644 ./exe/*.tbl
+chmod 644 ./exe/*.scr
+
+ >> Copy Files <<
+'./exe/core-linux.bin' -> './exe/cf/apps/core-linux.bin'
+'./exe/cf.so' -> './exe/cf/apps/cf.so'
+'./exe/cfs_lib.so' -> './exe/cf/apps/cfs_lib.so'
+'./exe/ci_lab.so' -> './exe/cf/apps/ci_lab.so'
+'./exe/cs.so' -> './exe/cf/apps/cs.so'
+'./exe/ds.so' -> './exe/cf/apps/ds.so'
+'./exe/fm.so' -> './exe/cf/apps/fm.so'
+'./exe/hk.so' -> './exe/cf/apps/hk.so'
+'./exe/hs.so' -> './exe/cf/apps/hs.so'
+'./exe/lc.so' -> './exe/cf/apps/lc.so'
+'./exe/md.so' -> './exe/cf/apps/md.so'
+'./exe/mm.so' -> './exe/cf/apps/mm.so'
+'./exe/sc.so' -> './exe/cf/apps/sc.so'
+'./exe/sch.so' -> './exe/cf/apps/sch.so'
+'./exe/schlib.so' -> './exe/cf/apps/schlib.so'
+'./exe/to_lab.so' -> './exe/cf/apps/to_lab.so'
+'./exe/whe.so' -> './exe/cf/apps/whe.so'
+'./exe/cf_cfgtable.tbl' -> './exe/cf/apps/cf_cfgtable.tbl'
+'./exe/ds_file_tbl.tbl' -> './exe/cf/apps/ds_file_tbl.tbl'
+'./exe/ds_filter_tbl.tbl' -> './exe/cf/apps/ds_filter_tbl.tbl'
+'./exe/fm_freespace.tbl' -> './exe/cf/apps/fm_freespace.tbl'
+'./exe/hk_cpy_tbl.tbl' -> './exe/cf/apps/hk_cpy_tbl.tbl'
+'./exe/hs_amt.tbl' -> './exe/cf/apps/hs_amt.tbl'
+'./exe/hs_emt.tbl' -> './exe/cf/apps/hs_emt.tbl'
+'./exe/hs_mat.tbl' -> './exe/cf/apps/hs_mat.tbl'
+'./exe/hs_xct.tbl' -> './exe/cf/apps/hs_xct.tbl'
+'./exe/lc_def_adt.tbl' -> './exe/cf/apps/lc_def_adt.tbl'
+'./exe/lc_def_wdt.tbl' -> './exe/cf/apps/lc_def_wdt.tbl'
+'./exe/sc_ats1.tbl' -> './exe/cf/apps/sc_ats1.tbl'
+'./exe/sc_rts001.tbl' -> './exe/cf/apps/sc_rts001.tbl'
+'./exe/sc_rts002.tbl' -> './exe/cf/apps/sc_rts002.tbl'
+'./exe/sch_def_msgtbl.tbl' -> './exe/cf/apps/sch_def_msgtbl.tbl'
+'./exe/sch_def_schtbl.tbl' -> './exe/cf/apps/sch_def_schtbl.tbl'
+
+../cfs.mak:232: recipe for target 'cfs_copy_installs' failed
+make: [cfs_copy_installs] Error 1 (ignored)
+'./exe/cfe_es_startup.scr' -> './exe/cf/apps/cfe_es_startup.scr'
+
+>>> DONE! <<<
+
