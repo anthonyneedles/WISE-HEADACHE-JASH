@@ -43,6 +43,7 @@
 /* #include "sc_msgids.h"  */
 #include "whe_msgids.h"
 #include "sch_msgids.h"
+#include "wise_msgids.h"
 
 
 /*************************************************************************
@@ -172,8 +173,8 @@ SCH_MessageEntry_t SCH_DefaultMessageTable[SCH_MAX_MESSAGES] =
   { { CFE_MAKE_BIG16(SCH_UNUSED_MID) } },
     /* command ID #25 - WHE 1 Hz Wakeup */
   { { CFE_MAKE_BIG16(WHE_1HZ_WAKEUP_MID),       CFE_MAKE_BIG16(0xC000), CFE_MAKE_BIG16(0x0001), 0x0000  } },
-    /* command ID #26 - Wake up app FSW_S1  */
-  { { CFE_MAKE_BIG16(SCH_UNUSED_MID) } },
+    /* command ID #26 - Wake up WISE app  */
+  { { CFE_MAKE_BIG16(WISE_WAKEUP_MID),          CFE_MAKE_BIG16(0xC000), CFE_MAKE_BIG16(0x0001), 0x0000  } },
     /* command ID #27 */
   { { CFE_MAKE_BIG16(SCH_UNUSED_MID) } },
     /* command ID #28 */
