@@ -44,7 +44,7 @@ USER_MODIFIED
 "config/tools/tlm_extractor/tlm_extractor3.txt" 0x475006AA
 "config/tools/tlm_extractor/_adcs_time.txt" 0x3DAD5094
 "config/tools/script_runner/script_runner.txt" 0x1EECD803
-"config/tools/tlm_viewer/tlm_viewer.txt" 0xC178D528
+"config/tools/tlm_viewer/tlm_viewer.txt" 0x5E31A903
 "config/tools/example_application.css" 0x2987FE3F
 "config/tools/data_viewer/data_viewer.txt" 0xCAC3B017
 "config/data/position.bin" 0x6EB90F11
@@ -63,12 +63,11 @@ USER_MODIFIED
 "config/data/meta_init.txt" 0xFF5B7C60
 "config/data/vswitchoff.gif" 0xFAE436C9
 "config/data/attitude.bin" 0xB6D17289
-"config/targets/CFS/cmd_tlm/app_a_tlm.txt" 0xB3D27921
 "config/targets/CFS/cmd_tlm/cfs_cmd.txt" 0xFF07A0CD
-"config/targets/CFS/cmd_tlm/app_a_cmd.txt" 0xD8879F81
+"config/targets/CFS/cmd_tlm/wise_cmds.txt" 0x270EE4D5
 "config/targets/CFS/cmd_tlm/cfs_tlm.txt" 0x5819EE38
-"config/targets/CFS/cmd_tlm/app_b_tlm.txt" 0x8E8131DF
-"config/targets/CFS/cmd_tlm/app_b_cmd.txt" 0xE398BF2C
+"config/targets/CFS/cmd_tlm/wise_tlm.txt" 0x275257EB
+"config/targets/CFS/screens/wise.txt" 0x4279211C
 "config/targets/CFS/screens/whe.txt" 0xED74007A
 "config/targets/CFS/cmd_tlm_server.txt" 0xF104213F
 "config/targets/SYSTEM/cmd_tlm/meta_tlm.txt" 0x1637F68F
@@ -214,7 +213,6 @@ USER_MODIFIED
 "tools/tool_launch.rb" 0x0BDB6696
 "procedures/example_test.rb" 0xEB8B8E79
 "procedures/plot_test.rb" 0xF311D562
-"procedures/assignment6_test.rb" 0x7C0F2627
 "procedures/interactive.rb" 0x006A7BD5
 "procedures/test.rb" 0xCE4DA55A
 "procedures/cosmos_api_test.rb" 0x3E004963
