@@ -52,6 +52,31 @@ typedef struct
 
 } THERM_HkTlm_t;
 
+typedef struct
+{
+    uint8              TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint8              usCmdCnt;
+    uint8              usCmdErrCnt;
+
+    /* TODO:  Add declarations for additional housekeeping data here */
+
+    uint16			    wiseSbcState;
+    uint16				wiseDamage;
+    uint16				wiseActiveCap;
+    uint16				wiseCapA_State;
+    uint16				wiseCapA_Charge;
+    uint16				wiseCapB_State;
+    uint16				wiseCapB_Charge;
+    uint16				wiseCapC_State;
+    uint16				wiseCapC_Charge;
+    uint16				wiseHtrA_State;
+    uint16				wiseHtrB_State;
+    uint16				wiseLvrA_State;
+    uint16				wiseLvrB_State;
+    uint16              wiseSSR_Count;
+    int16				wiseTemp;
+} WISE_HkTlm_t;
+
 
 #endif /* _THERM_MSG_H_ */
 

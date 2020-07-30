@@ -1,2 +1,3 @@
 cfs/build/cpu1/*
 !cfs/build/cpu1/exe/*.scr
+!cfs/build/cpu1/Makefile

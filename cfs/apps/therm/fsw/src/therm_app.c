@@ -618,6 +618,7 @@ void THERM_ProcessNewData()
     int iStatus = CFE_SUCCESS;
     CFE_SB_Msg_t*   TlmMsgPtr=NULL;
     CFE_SB_MsgId_t  TlmMsgId;
+    WISE_HkTlm_t*   WiseMsgPtr=NULL;
 
     /* Process telemetry messages till the pipe is empty */
     while (1)
@@ -635,6 +636,63 @@ void THERM_ProcessNewData()
                 **         THERM_ProcessNavData(TlmMsgPtr);
                 **         break;
                 */
+               case WISE_HK_TLM_MID:
+                    CFE_EVS_SendEvent(THERM_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                  "THERM - Recvd WISE HK TLM");
+                    WiseMsgPtr = (WISE_HkTlm_t *) &TlmMsgPtr;   
+
+                    /*
+                    **Process WISE Message - TODO: Add Fail Count Logic. Send Commands. Check charge? 
+                    */
+                   
+                    //Is the instrumet on and operational?
+                    if(WISE_SBC_POWERED == WiseMsgPtr->wiseSbcState || WISE_SBC_OBSERVING == WiseMsgPtr->wiseSbcState) 
+                    {
+                        //Temp is high. Decrease temp
+                        if (WiseMsgPtr->wiseTemp > WISE_TEMP_MAX)
+                        {
+                            //Manage Louvers - Trade study resulted in leaving LVRs OPEN
+                            if(LVRAFailCnt < 3)
+                            {
+                                if( WISE_LVR_CLOSED == WiseMsgPtr->wiseLvrA_State)
+                                {
+                                    //TODO SEND LVR TOGGLE A
+                                }
+                            }
+                            if(LVRBFailCnt < 3)
+                            {
+                                if(WISE_LVR_CLOSED == WiseMsgPtr->wiseLvrB_State)
+                                {
+                                    //TODO SEND LVR TOGGLE B
+                                }
+                            }
+
+                            //Manage Heaters
+                            if(WISE_HTR_ON == WiseMsgPtr->wiseHtrA_State)
+                            {
+                                //TODO SEND HTR TOGGLE A
+                            }
+                            if(WISE_HTR_ON == WiseMsgPtr->wiseHtrB_State)
+                            {
+                                //TODO SEND HTR TOGGLE B
+                            }
+                        }
+
+                        //Temp is low. Increase temp
+                        else if (WISE_TEMP_MIN > WiseMsgPtr->wiseTemp) 
+                        {
+                            //Manage Heaters
+                            if(WISE_HTR_OFF == WiseMsgPtr->wiseHtrA_State)
+                            {
+                                //TODO SEND HTR TOGGLE A
+                            }
+                            if(WISE_HTR_OFF == WiseMsgPtr->wiseHtrB_State)
+                            {
+                                //TODO SEND HTR TOGGLE B
+                            }
+                        }
+                    }
+                    break;
 
                 default:
                     CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,

@@ -40,11 +40,50 @@
 #include "therm_msg.h"
 
 
-
 /*
 ** Local Defines
 */
 #define THERM_TIMEOUT_MSEC    1000
+
+/*
+** WISE Defines
+*/
+
+/* The instrument safe range is 0 - 45 degrees C.  */
+/* We are choosing to maintain the operational temperature 15 - 30 C*/
+#define WISE_TEMP_MAX (30.0)
+#define WISE_TEMP_MIN (15.0)
+
+/* Thermal System Definitions */
+
+#define WISE_HTR_A (0)
+#define WISE_HTR_B (1)
+
+#define WISE_HTR_VALID(x) ((x >= WISE_HTR_A) && (x <= WISE_HTR_B))
+
+#define WISE_HTR_ON  (0)
+#define WISE_HTR_OFF (1)
+
+
+#define WISE_LVR_A (0)
+#define WISE_LVR_B (1)
+
+#define WISE_LVR_VALID(x) ((x >= WISE_LVR_A) && (x <= WISE_LVR_B))
+
+#define WISE_LVR_OPEN   (0)
+#define WISE_LVR_CLOSED (1)
+
+
+/* Observation System Definitions */
+
+#define WISE_SBC_OFF       (0)
+#define WISE_SBC_POWERED   (1)
+#define WISE_SBC_OBSERVING (2)
+#define WISE_SBC_ERROR     (3)
+
+#define WISE_INTR_DMG_NONE   (0)
+#define WISE_INSTR_DMG_MINOR (1)
+#define WISE_INSTR_DMG_MAJOR (2)
 
 /*
 ** Local Structure Declarations
@@ -94,6 +133,8 @@ typedef struct
 /*
 ** Global Variables
 */
+uint16 LVRAFailCnt = 0;
+uint16 LVRBFailCnt = 0;
 
 /*
 ** Local Variables
