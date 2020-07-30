@@ -1,0 +1,2 @@
+cfs/build/cpu1/*
+!cfs/build/cpu1/exe/*.scr
