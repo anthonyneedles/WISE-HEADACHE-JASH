@@ -77,6 +77,13 @@ typedef struct
     int16				wiseTemp;
 } WISE_HkTlm_t;
 
+typedef struct
+{
+	uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint8 cmdCode;
+	uint16 target;
+} THERM_WISE_OutTlm_t;
+
 
 #endif /* _THERM_MSG_H_ */
 

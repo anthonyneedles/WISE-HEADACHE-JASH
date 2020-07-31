@@ -85,6 +85,10 @@
 #define WISE_INSTR_DMG_MINOR (1)
 #define WISE_INSTR_DMG_MAJOR (2)
 
+/*WISE THERM Command Codes*/
+#define WISE_HTR_TOGGLE_CC		     3
+#define WISE_LVR_TOGGLE_CC         4
+
 /*
 ** Local Structure Declarations
 */
@@ -124,6 +128,10 @@ typedef struct
     THERM_HkTlm_t  HkTlm;
 
     /* TODO:  Add declarations for additional private data here */
+    /* THERM to WISE Output data - to be published as needed.
+       Data structure should be defined in therm/fsw/src/therm_msg.h */
+    THERM_WISE_OutTlm_t ThermWiseTlm;
+
 } THERM_AppData_t;
 
 /*
@@ -133,8 +141,11 @@ typedef struct
 /*
 ** Global Variables
 */
-uint16 LVRAFailCnt = 0;
-uint16 LVRBFailCnt = 0;
+uint16 gLVRAFailCnt = 0;
+uint16 gLVRBFailCnt = 0;
+uint16 gLvrALastState = -1;
+uint16 gLvrBLastState = -1;
+
 
 /*
 ** Local Variables

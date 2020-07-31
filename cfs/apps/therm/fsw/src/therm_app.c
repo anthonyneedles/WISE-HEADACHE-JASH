@@ -347,6 +347,11 @@ int32 THERM_InitData()
     CFE_SB_InitMsg(&g_THERM_AppData.HkTlm,
                    THERM_HK_TLM_MID, sizeof(g_THERM_AppData.HkTlm), TRUE);
 
+    /* Init THERM to WISE packet */
+    memset((void*)&g_THERM_AppData.ThermWiseTlm, 0x00, sizeof(g_THERM_AppData.ThermWiseTlm));
+    CFE_SB_InitMsg(&g_THERM_AppData.ThermWiseTlm,
+                   THERM_WISE_OUT_TLM_MID, sizeof(g_THERM_AppData.ThermWiseTlm), TRUE);
+
     return (iStatus);
 }
     
@@ -642,7 +647,7 @@ void THERM_ProcessNewData()
                     WiseMsgPtr = (WISE_HkTlm_t *) &TlmMsgPtr;   
 
                     /*
-                    **Process WISE Message - TODO: Add Fail Count Logic. Send Commands. Check charge? 
+                    **Process WISE Message 
                     */
                    
                     //Is the instrumet on and operational?
@@ -651,30 +656,84 @@ void THERM_ProcessNewData()
                         //Temp is high. Decrease temp
                         if (WiseMsgPtr->wiseTemp > WISE_TEMP_MAX)
                         {
-                            //Manage Louvers - Trade study resulted in leaving LVRs OPEN
-                            if(LVRAFailCnt < 3)
+                            /*Manage Louvers - Trade study resulted in leaving LVRs OPEN*/
+                            //Louver A
+                            if(gLvrALastState==WiseMsgPtr->wiseLvrA_State && gLvrALastState != -1) 
                             {
+                                //Lvr A Failed to change after last count
+                                gLVRAFailCnt++;
+                            }
+                            else
+                            {
+                                //Reset Lvr A fail counter
+                                gLVRAFailCnt = 0;
+                            }
+                            if(gLVRAFailCnt < 3)
+                            {
+                                gLvrALastState = WiseMsgPtr->wiseLvrA_State;
                                 if( WISE_LVR_CLOSED == WiseMsgPtr->wiseLvrA_State)
                                 {
-                                    //TODO SEND LVR TOGGLE A
+                                    //SEND LVR TOGGLE A
+                                    g_THERM_AppData.ThermWiseTlm.cmdCode = WISE_LVR_TOGGLE_CC;
+                                    g_THERM_AppData.ThermWiseTlm.target = WISE_LVR_A;
+                                    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm);
+                                    CFE_SB_SendMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm);   
+
                                 }
                             }
-                            if(LVRBFailCnt < 3)
+                            else
                             {
-                                if(WISE_LVR_CLOSED == WiseMsgPtr->wiseLvrB_State)
-                                {
-                                    //TODO SEND LVR TOGGLE B
-                                }
+                                CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
+                                      "THERM - Louver A has failed to change after 3 attempts. Louver A is broken (0x%08X)", TlmMsgId);
                             }
 
-                            //Manage Heaters
+                            //Louver B
+                            if(gLvrBLastState==WiseMsgPtr->wiseLvrB_State && gLvrBLastState != -1) 
+                            {
+                                //Lvr B Failed to change after last count
+                                gLVRBFailCnt++;
+                            }
+                            else
+                            {
+                                //Reset Lvr B fail counter
+                                gLVRBFailCnt = 0;
+                            }
+                            
+                            if(gLVRBFailCnt < 3)
+                            {
+                                gLvrBLastState = WiseMsgPtr->wiseLvrB_State;
+                                if(WISE_LVR_CLOSED == WiseMsgPtr->wiseLvrB_State)
+                                {
+                                    //SEND LVR TOGGLE B
+                                    g_THERM_AppData.ThermWiseTlm.cmdCode = WISE_LVR_TOGGLE_CC;
+                                    g_THERM_AppData.ThermWiseTlm.target = WISE_LVR_B;
+                                    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm);
+                                    CFE_SB_SendMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm);  
+                                }
+                            }
+                            else
+                            {
+                                CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
+                                      "THERM - Louver B has failed to change after 3 attempts. Louver B is broken (0x%08X)", TlmMsgId);
+                            }
+                            
+
+                            /*Manage Heaters*/
                             if(WISE_HTR_ON == WiseMsgPtr->wiseHtrA_State)
                             {
-                                //TODO SEND HTR TOGGLE A
+                                //SEND HTR TOGGLE A
+                                g_THERM_AppData.ThermWiseTlm.cmdCode = WISE_HTR_TOGGLE_CC;
+                                g_THERM_AppData.ThermWiseTlm.target = WISE_HTR_A;
+                                CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm);
+                                CFE_SB_SendMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm); 
                             }
                             if(WISE_HTR_ON == WiseMsgPtr->wiseHtrB_State)
                             {
-                                //TODO SEND HTR TOGGLE B
+                                //SEND HTR TOGGLE B
+                                g_THERM_AppData.ThermWiseTlm.cmdCode = WISE_HTR_TOGGLE_CC;
+                                g_THERM_AppData.ThermWiseTlm.target = WISE_HTR_B;
+                                CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm);
+                                CFE_SB_SendMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm); 
                             }
                         }
 
@@ -684,14 +743,28 @@ void THERM_ProcessNewData()
                             //Manage Heaters
                             if(WISE_HTR_OFF == WiseMsgPtr->wiseHtrA_State)
                             {
-                                //TODO SEND HTR TOGGLE A
+                                //SEND HTR TOGGLE A
+                                g_THERM_AppData.ThermWiseTlm.cmdCode = WISE_HTR_TOGGLE_CC;
+                                g_THERM_AppData.ThermWiseTlm.target = WISE_HTR_A;
+                                CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm);
+                                CFE_SB_SendMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm); 
                             }
                             if(WISE_HTR_OFF == WiseMsgPtr->wiseHtrB_State)
                             {
-                                //TODO SEND HTR TOGGLE B
+                                //SEND HTR TOGGLE B
+                                g_THERM_AppData.ThermWiseTlm.cmdCode = WISE_HTR_TOGGLE_CC;
+                                g_THERM_AppData.ThermWiseTlm.target = WISE_HTR_B;
+                                CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm);
+                                CFE_SB_SendMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm); 
                             }
                         }
                     }
+                    else
+                    {
+                        CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
+                                      "THERM - SBC State INVALID for TLM msgId (0x%08X)", TlmMsgId);
+                    }
+                    
                     break;
 
                 default:

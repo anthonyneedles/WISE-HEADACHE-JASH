@@ -254,6 +254,7 @@ void WISE_AlterCapCharge(uint8 cap, float change);
 void WISE_AlterCapChargePct(uint8 cap, float pct);
 void WISE_CalculateThermal(void);
 void WISE_HandleObservation(void);
+void ProcessThermMsg(THERM_WISE_OutTlm_t*);
 
 #endif /* _WISE_APP_H_ */
 

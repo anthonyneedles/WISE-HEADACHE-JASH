@@ -28,6 +28,8 @@
 
 #define THERM_HK_TLM_MID		    0x08BB
 
+#define THERM_WISE_OUT_TLM_MID      0x08BC
+
 //EXTERNAL MSGS
 #define WISE_HK_TLM_MID		        0x08CC
 

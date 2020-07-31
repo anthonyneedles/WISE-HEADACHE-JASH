@@ -83,6 +83,13 @@ typedef struct
 	uint16 target;
 } WISE_ParmCmd_t;
 
+typedef struct
+{
+	uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint8 cmdCode;
+	uint16 target;
+} THERM_WISE_OutTlm_t;
+
 
 
 #endif /* _WISE_MSG_H_ */

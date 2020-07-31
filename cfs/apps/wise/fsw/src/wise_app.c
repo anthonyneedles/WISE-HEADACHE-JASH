@@ -272,6 +272,12 @@ int32 WISE_InitPipe()
         ** Examples:
         **     CFE_SB_Subscribe(GNCEXEC_OUT_DATA_MID, g_WISE_AppData.TlmPipeId);
         */
+	   iStatus = CFE_SB_Subscribe(THERM_WISE_OUT_TLM_MID, g_WISE_AppData.TlmPipeId);
+        if (iStatus != CFE_SUCCESS)
+        {
+            CFE_ES_WriteToSysLog("WISE - CMD Pipe failed to subscribe to THERM_WISE_OUT_TLM_MID. (0x%08X)\n", iStatus);
+            goto WISE_InitPipe_Exit_Tag;
+        }
     }
     else
     {
@@ -652,6 +658,7 @@ void WISE_ProcessNewData()
     int iStatus = CFE_SUCCESS;
     CFE_SB_Msg_t*   TlmMsgPtr=NULL;
     CFE_SB_MsgId_t  TlmMsgId;
+	THERM_WISE_OutTlm_t* ThermWiseMsgPtr=NULL;
 
     /* Process telemetry messages till the pipe is empty */
     while (1)
@@ -669,6 +676,12 @@ void WISE_ProcessNewData()
                 **         WISE_ProcessNavData(TlmMsgPtr);
                 **         break;
                 */
+			   case THERM_WISE_OUT_TLM_MID:
+                    CFE_EVS_SendEvent(WISE_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                  "WISE - Recvd THERM_WISE_OUT_TLM");
+                    ThermWiseMsgPtr = (THERM_WISE_OutTlm_t*) &TlmMsgPtr;
+					ProcessThermMsg(ThermWiseMsgPtr);              
+                  break;
 
                 default:
                     CFE_EVS_SendEvent(WISE_MSGID_ERR_EID, CFE_EVS_ERROR,
@@ -688,6 +701,36 @@ void WISE_ProcessNewData()
             break;
         }
     }
+}
+
+void ProcessThermMsg(THERM_WISE_OutTlm_t* ThermWiseMsgPtr)
+{
+	switch(ThermWiseMsgPtr->cmdCode)
+	{
+		case WISE_HTR_TOGGLE_CC:
+			if((gWiseSbcState != WISE_SBC_OFF) && (gWiseSbcState != WISE_SBC_ERROR))
+			{
+				CFE_EVS_SendEvent(WISE_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                  "WISE - TOGGLE HTR from Therm");
+				WISE_ToggleHtr(ThermWiseMsgPtr->target);
+			}
+			break;
+
+		case WISE_LVR_TOGGLE_CC:
+			if((gWiseSbcState != WISE_SBC_OFF) && (gWiseSbcState != WISE_SBC_ERROR))
+			{
+				CFE_EVS_SendEvent(WISE_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                  "WISE - TOGGLE LVR from Therm");
+				WISE_ToggleLvr(ThermWiseMsgPtr->target);
+			}
+			break;
+
+		default:
+			CFE_EVS_SendEvent(WISE_MSGID_ERR_EID, CFE_EVS_ERROR,
+								"WISE - Recvd invalid CC from THERM TLM");
+			break;
+	}
+
 }
     
 /*=====================================================================================
