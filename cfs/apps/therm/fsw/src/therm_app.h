@@ -141,11 +141,6 @@ typedef struct
 /*
 ** Global Variables
 */
-uint16 gLVRAFailCnt = 0;
-uint16 gLVRBFailCnt = 0;
-uint16 gLvrALastState = -1;
-uint16 gLvrBLastState = -1;
-
 
 /*
 ** Local Variables

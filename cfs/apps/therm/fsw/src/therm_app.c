@@ -352,6 +352,13 @@ int32 THERM_InitData()
     CFE_SB_InitMsg(&g_THERM_AppData.ThermWiseTlm,
                    THERM_WISE_OUT_TLM_MID, sizeof(g_THERM_AppData.ThermWiseTlm), TRUE);
 
+    // Reset the attempt counts during app initialization
+    g_THERM_AppData.HkTlm.lvrAFailCnt = 0;
+    g_THERM_AppData.HkTlm.lvrBFailCnt = 0;
+
+    g_THERM_AppData.HkTlm.lvrALastState = -1;
+    g_THERM_AppData.HkTlm.lvrBLastState = -1;
+
     return (iStatus);
 }
     
@@ -658,19 +665,19 @@ void THERM_ProcessNewData()
                         {
                             /*Manage Louvers - Trade study resulted in leaving LVRs OPEN*/
                             //Louver A
-                            if(gLvrALastState==WiseMsgPtr->wiseLvrA_State && gLvrALastState != -1) 
+                            if(g_THERM_AppData.HkTlm.lvrALastState==WiseMsgPtr->wiseLvrA_State && g_THERM_AppData.HkTlm.lvrALastState != -1)
                             {
                                 //Lvr A Failed to change after last count
-                                gLVRAFailCnt++;
+                                g_THERM_AppData.HkTlm.lvrAFailCnt++;
                             }
                             else
                             {
                                 //Reset Lvr A fail counter
-                                gLVRAFailCnt = 0;
+                                g_THERM_AppData.HkTlm.lvrAFailCnt = 0;
                             }
-                            if(gLVRAFailCnt < 3)
+                            if(g_THERM_AppData.HkTlm.lvrAFailCnt < 3)
                             {
-                                gLvrALastState = WiseMsgPtr->wiseLvrA_State;
+                                g_THERM_AppData.HkTlm.lvrALastState = WiseMsgPtr->wiseLvrA_State;
                                 if( WISE_LVR_CLOSED == WiseMsgPtr->wiseLvrA_State)
                                 {
                                     //SEND LVR TOGGLE A
@@ -688,20 +695,20 @@ void THERM_ProcessNewData()
                             }
 
                             //Louver B
-                            if(gLvrBLastState==WiseMsgPtr->wiseLvrB_State && gLvrBLastState != -1) 
+                            if(g_THERM_AppData.HkTlm.lvrBLastState==WiseMsgPtr->wiseLvrB_State && g_THERM_AppData.HkTlm.lvrBLastState != -1)
                             {
                                 //Lvr B Failed to change after last count
-                                gLVRBFailCnt++;
+                                g_THERM_AppData.HkTlm.lvrBFailCnt++;
                             }
                             else
                             {
                                 //Reset Lvr B fail counter
-                                gLVRBFailCnt = 0;
+                                g_THERM_AppData.HkTlm.lvrBFailCnt = 0;
                             }
                             
-                            if(gLVRBFailCnt < 3)
+                            if(g_THERM_AppData.HkTlm.lvrBFailCnt < 3)
                             {
-                                gLvrBLastState = WiseMsgPtr->wiseLvrB_State;
+                                g_THERM_AppData.HkTlm.lvrBLastState = WiseMsgPtr->wiseLvrB_State;
                                 if(WISE_LVR_CLOSED == WiseMsgPtr->wiseLvrB_State)
                                 {
                                     //SEND LVR TOGGLE B
@@ -943,6 +950,25 @@ void THERM_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
                 break;
 
             /* TODO:  Add code to process the rest of the THERM commands here */
+            case THERM_RST_LVR_CNT_CC:
+                {
+                    // Cast the MsgPtr to the command structure
+                    THERM_RST_LVR_CNT_t *CmdPtr = (THERM_RST_LVR_CNT_t *) MsgPtr;
+
+                    // Reset the appropriate louver's attempt count based on the
+                    // command received
+                    if (CmdPtr->lrvSelect == 0){
+                        g_THERM_AppData.HkTlm.lvrAFailCnt = 0;
+                    }
+                    else if (CmdPtr->lrvSelect == 1){
+                        g_THERM_AppData.HkTlm.lvrBFailCnt = 0;
+                    }
+                    else{
+                        // invalid parameter. create event
+                    }
+                }
+
+                break;
 
             default:
                 g_THERM_AppData.HkTlm.usCmdErrCnt++;
@@ -1043,6 +1069,8 @@ void THERM_SendOutData()
 
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&g_THERM_AppData.OutData);
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&g_THERM_AppData.OutData);
+
+    THERM_ReportHousekeeping();
 }
     
 /*=====================================================================================
