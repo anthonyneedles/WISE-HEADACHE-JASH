@@ -679,7 +679,7 @@ void WISE_ProcessNewData()
 			   case THERM_WISE_OUT_TLM_MID:
                     CFE_EVS_SendEvent(WISE_CMD_INF_EID, CFE_EVS_INFORMATION,
                                   "WISE - Recvd THERM_WISE_OUT_TLM");
-                    ThermWiseMsgPtr = (THERM_WISE_OutTlm_t*) &TlmMsgPtr;
+                    ThermWiseMsgPtr = (THERM_WISE_OutTlm_t*) TlmMsgPtr;
 					ProcessThermMsg(ThermWiseMsgPtr);              
                   break;
 

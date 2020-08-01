@@ -651,8 +651,10 @@ void THERM_ProcessNewData()
                case WISE_HK_TLM_MID:
                     CFE_EVS_SendEvent(THERM_CMD_INF_EID, CFE_EVS_INFORMATION,
                                   "THERM - Recvd WISE HK TLM");
-                    WiseMsgPtr = (WISE_HkTlm_t *) &TlmMsgPtr;   
-
+                    
+                    //Cast to Wise Msg
+                    WiseMsgPtr = (WISE_HkTlm_t *) TlmMsgPtr;   
+                    
                     /*
                     **Process WISE Message 
                     */
@@ -770,6 +772,8 @@ void THERM_ProcessNewData()
                     {
                         CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
                                       "THERM - SBC State INVALID for TLM msgId (0x%08X)", TlmMsgId);
+                        CFE_EVS_SendEvent(THERM_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                        "THERM - Current wise state %d. Needs to be POWERED(1) or OBSERVING(2)", WiseMsgPtr->wiseSbcState);
                     }
                     
                     break;
