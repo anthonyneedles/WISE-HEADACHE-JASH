@@ -26,10 +26,7 @@
 #define WISE_WAKEUP_MID        	    0x18CE
 #define WISE_OUT_DATA_MID        	0x18CF
 
-#define WISE_HK_TLM_MID		        0x08CC
-
-//EXTERNAL MSGS
-#define THERM_WISE_OUT_TLM_MID      0x08BC
+#define WISE_HK_TLM_MID		0x08CC
 
     
 

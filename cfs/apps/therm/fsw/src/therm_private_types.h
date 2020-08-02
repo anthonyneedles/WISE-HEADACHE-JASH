@@ -16,7 +16,7 @@
 **   2020-07-29 | JASH | Build #: Code Started
 **
 **=====================================================================================*/
-    
+
 #ifndef _THERM_PRIVATE_TYPES_H_
 #define _THERM_PRIVATE_TYPES_H_
 
@@ -59,6 +59,13 @@ typedef struct
     uint32  uiCounter;
 } THERM_OutData_t;
 
+
+typedef struct
+{
+	uint8 CmdHeader[CFE_SB_CMD_HDR_SIZE];
+	uint16 target;
+} THERM_To_WISE_ParmCmd_t;
+
 /* TODO:  Add more private structure definitions here, if necessary. */
 
 /*
@@ -82,4 +89,3 @@ typedef struct
 /*=======================================================================================
 ** End of file therm_private_types.h
 **=====================================================================================*/
-    

@@ -69,7 +69,140 @@ THERM_AppData_t  g_THERM_AppData;
 /*
 ** Local Function Definitions
 */
-    
+
+uint16 THERM_get_active_cap_charge(WISE_HkTlm_t *hk_ptr)
+{
+    uint16 cap_state;
+    uint16 charge = 0;
+    uint16 active_cap = hk_ptr->wiseActiveCap;
+
+    switch(active_cap) {
+        case WISE_ACTIVE_CAP_A:
+            cap_state = hk_ptr->wiseCapA_State;
+            if ((cap_state != WISE_CAP_BROKEN) && (cap_state != WISE_CAP_LEAKING)) {
+                charge = hk_ptr->wiseCapA_Charge;
+                CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
+                        "THERM - ACTIVE CAP %d WITH CHARGE %d", active_cap, charge);
+            } else {
+                CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
+                        "THERM - WISE active cap invalid: %d (Broken (%d) or Leaking (%d))",
+                        active_cap, WISE_CAP_BROKEN, WISE_CAP_LEAKING);
+            }
+            break;
+
+        case WISE_ACTIVE_CAP_B:
+            cap_state = hk_ptr->wiseCapB_State;
+            if ((cap_state != WISE_CAP_BROKEN) && (cap_state != WISE_CAP_LEAKING)) {
+                charge = hk_ptr->wiseCapB_Charge;
+                CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
+                        "THERM - ACTIVE CAP %d WITH CHARGE %d", active_cap, charge);
+            } else {
+                CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
+                        "THERM - WISE active cap invalid: %d (Broken (%d) or Leaking (%d))",
+                        active_cap, WISE_CAP_BROKEN, WISE_CAP_LEAKING);
+            }
+            break;
+
+        case WISE_ACTIVE_CAP_C:
+            cap_state = hk_ptr->wiseCapC_State;
+            if ((cap_state != WISE_CAP_BROKEN) && (cap_state != WISE_CAP_LEAKING)) {
+                charge = hk_ptr->wiseCapC_Charge;
+                CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
+                        "THERM - ACTIVE CAP %d WITH CHARGE %d", active_cap, charge);
+            } else {
+                CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
+                        "THERM - WISE active cap invalid: %d (Broken (%d) or Leaking (%d))",
+                        active_cap, WISE_CAP_BROKEN, WISE_CAP_LEAKING);
+            }
+            break;
+
+        default:
+            CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
+                    "THERM - WISE reported invalid active cap: %d", active_cap);
+            break;
+    }
+
+    return charge;
+}
+
+void THERM_toggle_lvr(WISE_HkTlm_t *hk_ptr, uint16 target)
+{
+    uint16 active_charge = THERM_get_active_cap_charge(hk_ptr);
+
+    if (active_charge >= WISE_LVR_MIN_CHARGE) {
+        CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
+                "THERM - TOGGLING LOUVER %d, ACTIVE CHARGE: %d", target, active_charge);
+        g_THERM_AppData.WISECmd.target = target;
+        CFE_SB_SetCmdCode((CFE_SB_Msg_t*)&g_THERM_AppData.WISECmd, WISE_LVR_TOGGLE_CC);
+        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&g_THERM_AppData.WISECmd);
+        CFE_SB_SendMsg((CFE_SB_Msg_t*)&g_THERM_AppData.WISECmd);
+
+        // test the attempt counts
+        if (target == WISE_LVR_A) {
+            g_THERM_AppData.HkTlm.lvrAAttempts++;
+            if (g_THERM_AppData.HkTlm.lvrAAttempts >= WISE_MAX_LVR_ATTEMPTS)
+                CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
+                        "THERM - Louver A has failed to change after 3 attempts. Louver A is broken");
+        } else if (target == WISE_LVR_B) {
+            g_THERM_AppData.HkTlm.lvrBAttempts++;
+            if (g_THERM_AppData.HkTlm.lvrAAttempts >= WISE_MAX_LVR_ATTEMPTS)
+                CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
+                        "THERM - Louver B has failed to change after 3 attempts. Louver B is broken");
+        }
+    } else {
+        CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
+                "THERM - Can't currently toggle louver: %d", target);
+    }
+}
+
+void THERM_toggle_htr(uint16 target)
+{
+    g_THERM_AppData.WISECmd.target = target;
+    CFE_SB_SetCmdCode((CFE_SB_Msg_t*)&g_THERM_AppData.WISECmd, WISE_HTR_TOGGLE_CC);
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&g_THERM_AppData.WISECmd);
+    CFE_SB_SendMsg((CFE_SB_Msg_t*)&g_THERM_AppData.WISECmd);
+}
+
+
+void THERM_process_wise_hk(WISE_HkTlm_t *hk_ptr, CFE_SB_MsgId_t msg_id)
+{
+    // Is the instrumet on and operational?
+    if (WISE_SBC_POWERED == hk_ptr->wiseSbcState || WISE_SBC_OBSERVING == hk_ptr->wiseSbcState) {
+        // If Louver A is not open, and we still have attempts, try to open it
+        if ((hk_ptr->wiseLvrA_State != WISE_LVR_OPEN) &&
+                (g_THERM_AppData.HkTlm.lvrAAttempts < WISE_MAX_LVR_ATTEMPTS)) {
+            THERM_toggle_lvr(hk_ptr, WISE_LVR_A);
+        }
+
+        // If Louver B is not open, and we still have attempts, try to open it
+        if ((hk_ptr->wiseLvrB_State != WISE_LVR_OPEN) &&
+                (g_THERM_AppData.HkTlm.lvrBAttempts < WISE_MAX_LVR_ATTEMPTS)) {
+            THERM_toggle_lvr(hk_ptr, WISE_LVR_B);
+        }
+
+        if (hk_ptr->wiseTemp > WISE_TEMP_MAX) {
+            //Temp is high. Decrease temp
+            if (WISE_HTR_ON == hk_ptr->wiseHtrA_State)
+                THERM_toggle_htr(WISE_HTR_A);
+
+            if (WISE_HTR_ON == hk_ptr->wiseHtrB_State)
+                THERM_toggle_htr(WISE_HTR_B);
+        } else if (WISE_TEMP_MIN > hk_ptr->wiseTemp) {
+            //Temp is low. Increase temp
+            if (WISE_HTR_OFF == hk_ptr->wiseHtrA_State)
+                THERM_toggle_htr(WISE_HTR_A);
+
+            if (WISE_HTR_OFF == hk_ptr->wiseHtrB_State)
+                THERM_toggle_htr(WISE_HTR_B);
+        }
+    } else {
+        CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
+                        "THERM - SBC State INVALID for TLM msgId (0x%08X)", msg_id);
+        CFE_EVS_SendEvent(THERM_CMD_INF_EID, CFE_EVS_INFORMATION,
+                        "THERM - Current wise state %d. Needs to be POWERED(1) or OBSERVING(2)", hk_ptr->wiseSbcState);
+    }
+}
+
 /*=====================================================================================
 ** Name: THERM_InitEvent
 **
@@ -104,7 +237,7 @@ THERM_AppData_t  g_THERM_AppData;
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  JASH 
+** Author(s):  JASH
 **
 ** History:  Date Written  2020-07-29
 **           Unit Tested   yyyy-mm-dd
@@ -142,7 +275,7 @@ int32 THERM_InitEvent()
 
     return (iStatus);
 }
-    
+
 /*=====================================================================================
 ** Name: THERM_InitPipe
 **
@@ -186,7 +319,7 @@ int32 THERM_InitEvent()
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  JASH 
+** Author(s):  JASH
 **
 ** History:  Date Written  2020-07-29
 **           Unit Tested   yyyy-mm-dd
@@ -213,7 +346,7 @@ int32 THERM_InitPipe()
             CFE_ES_WriteToSysLog("THERM - Sch Pipe failed to subscribe to THERM_WAKEUP_MID. (0x%08X)\n", iStatus);
             goto THERM_InitPipe_Exit_Tag;
         }
-        
+
     }
     else
     {
@@ -248,7 +381,7 @@ int32 THERM_InitPipe()
             CFE_ES_WriteToSysLog("THERM - CMD Pipe failed to subscribe to THERM_SEND_HK_MID. (0x%08X)\n", iStatus);
             goto THERM_InitPipe_Exit_Tag;
         }
-        
+
     }
     else
     {
@@ -289,7 +422,7 @@ int32 THERM_InitPipe()
 THERM_InitPipe_Exit_Tag:
     return (iStatus);
 }
-    
+
 /*=====================================================================================
 ** Name: THERM_InitData
 **
@@ -325,7 +458,7 @@ THERM_InitPipe_Exit_Tag:
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  JASH 
+** Author(s):  JASH
 **
 ** History:  Date Written  2020-07-29
 **           Unit Tested   yyyy-mm-dd
@@ -347,21 +480,18 @@ int32 THERM_InitData()
     CFE_SB_InitMsg(&g_THERM_AppData.HkTlm,
                    THERM_HK_TLM_MID, sizeof(g_THERM_AppData.HkTlm), TRUE);
 
-    /* Init THERM to WISE packet */
-    memset((void*)&g_THERM_AppData.ThermWiseTlm, 0x00, sizeof(g_THERM_AppData.ThermWiseTlm));
-    CFE_SB_InitMsg(&g_THERM_AppData.ThermWiseTlm,
-                   THERM_WISE_OUT_TLM_MID, sizeof(g_THERM_AppData.ThermWiseTlm), TRUE);
+    /* Init THERM to WISE commands */
+    memset((void*)&g_THERM_AppData.WISECmd, 0x00, sizeof(g_THERM_AppData.WISECmd));
+    CFE_SB_InitMsg(&g_THERM_AppData.WISECmd,
+                   WISE_CMD_MID, sizeof(g_THERM_AppData.WISECmd), TRUE);
 
     // Reset the attempt counts during app initialization
-    g_THERM_AppData.HkTlm.lvrAFailCnt = 0;
-    g_THERM_AppData.HkTlm.lvrBFailCnt = 0;
-
-    g_THERM_AppData.HkTlm.lvrALastState = -1;
-    g_THERM_AppData.HkTlm.lvrBLastState = -1;
+    g_THERM_AppData.HkTlm.lvrAAttempts = 0;
+    g_THERM_AppData.HkTlm.lvrBAttempts = 0;
 
     return (iStatus);
 }
-    
+
 /*=====================================================================================
 ** Name: THERM_InitApp
 **
@@ -401,7 +531,7 @@ int32 THERM_InitData()
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  JASH 
+** Author(s):  JASH
 **
 ** History:  Date Written  2020-07-29
 **           Unit Tested   yyyy-mm-dd
@@ -419,8 +549,8 @@ int32 THERM_InitApp()
         goto THERM_InitApp_Exit_Tag;
     }
 
-    if ((THERM_InitEvent() != CFE_SUCCESS) || 
-        (THERM_InitPipe() != CFE_SUCCESS) || 
+    if ((THERM_InitEvent() != CFE_SUCCESS) ||
+        (THERM_InitPipe() != CFE_SUCCESS) ||
         (THERM_InitData() != CFE_SUCCESS))
     {
         iStatus = -1;
@@ -443,7 +573,7 @@ THERM_InitApp_Exit_Tag:
 
     return (iStatus);
 }
-    
+
 /*=====================================================================================
 ** Name: THERM_CleanupCallback
 **
@@ -477,7 +607,7 @@ THERM_InitApp_Exit_Tag:
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  JASH 
+** Author(s):  JASH
 **
 ** History:  Date Written  2020-07-29
 **           Unit Tested   yyyy-mm-dd
@@ -486,7 +616,7 @@ void THERM_CleanupCallback()
 {
     /* TODO:  Add code to cleanup memory and other cleanup here */
 }
-    
+
 /*=====================================================================================
 ** Name: THERM_RcvMsg
 **
@@ -496,7 +626,7 @@ void THERM_CleanupCallback()
 **    None
 **
 ** Returns:
-**    int32 iStatus - Status of initialization 
+**    int32 iStatus - Status of initialization
 **
 ** Routines Called:
 **    CFE_SB_RcvMsg
@@ -527,7 +657,7 @@ void THERM_CleanupCallback()
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  JASH 
+** Author(s):  JASH
 **
 ** History:  Date Written  2020-07-29
 **           Unit Tested   yyyy-mm-dd
@@ -584,7 +714,7 @@ int32 THERM_RcvMsg(int32 iBlocking)
 
     return (iStatus);
 }
-    
+
 /*=====================================================================================
 ** Name: THERM_ProcessNewData
 **
@@ -620,7 +750,7 @@ int32 THERM_RcvMsg(int32 iBlocking)
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  JASH 
+** Author(s):  JASH
 **
 ** History:  Date Written  2020-07-29
 **           Unit Tested   yyyy-mm-dd
@@ -641,7 +771,7 @@ void THERM_ProcessNewData()
             TlmMsgId = CFE_SB_GetMsgId(TlmMsgPtr);
             switch (TlmMsgId)
             {
-                /* TODO:  Add code to process all subscribed data here 
+                /* TODO:  Add code to process all subscribed data here
                 **
                 ** Example:
                 **     case NAV_OUT_DATA_MID:
@@ -651,131 +781,10 @@ void THERM_ProcessNewData()
                case WISE_HK_TLM_MID:
                     CFE_EVS_SendEvent(THERM_CMD_INF_EID, CFE_EVS_INFORMATION,
                                   "THERM - Recvd WISE HK TLM");
-                    
+
                     //Cast to Wise Msg
-                    WiseMsgPtr = (WISE_HkTlm_t *) TlmMsgPtr;   
-                    
-                    /*
-                    **Process WISE Message 
-                    */
-                   
-                    //Is the instrumet on and operational?
-                    if(WISE_SBC_POWERED == WiseMsgPtr->wiseSbcState || WISE_SBC_OBSERVING == WiseMsgPtr->wiseSbcState) 
-                    {
-                        //Temp is high. Decrease temp
-                        if (WiseMsgPtr->wiseTemp > WISE_TEMP_MAX)
-                        {
-                            /*Manage Louvers - Trade study resulted in leaving LVRs OPEN*/
-                            //Louver A
-                            if(g_THERM_AppData.HkTlm.lvrALastState==WiseMsgPtr->wiseLvrA_State && g_THERM_AppData.HkTlm.lvrALastState != -1)
-                            {
-                                //Lvr A Failed to change after last count
-                                g_THERM_AppData.HkTlm.lvrAFailCnt++;
-                            }
-                            else
-                            {
-                                //Reset Lvr A fail counter
-                                g_THERM_AppData.HkTlm.lvrAFailCnt = 0;
-                            }
-                            if(g_THERM_AppData.HkTlm.lvrAFailCnt < 3)
-                            {
-                                g_THERM_AppData.HkTlm.lvrALastState = WiseMsgPtr->wiseLvrA_State;
-                                if( WISE_LVR_CLOSED == WiseMsgPtr->wiseLvrA_State)
-                                {
-                                    //SEND LVR TOGGLE A
-                                    g_THERM_AppData.ThermWiseTlm.cmdCode = WISE_LVR_TOGGLE_CC;
-                                    g_THERM_AppData.ThermWiseTlm.target = WISE_LVR_A;
-                                    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm);
-                                    CFE_SB_SendMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm);   
-
-                                }
-                            }
-                            else
-                            {
-                                CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
-                                      "THERM - Louver A has failed to change after 3 attempts. Louver A is broken (0x%08X)", TlmMsgId);
-                            }
-
-                            //Louver B
-                            if(g_THERM_AppData.HkTlm.lvrBLastState==WiseMsgPtr->wiseLvrB_State && g_THERM_AppData.HkTlm.lvrBLastState != -1)
-                            {
-                                //Lvr B Failed to change after last count
-                                g_THERM_AppData.HkTlm.lvrBFailCnt++;
-                            }
-                            else
-                            {
-                                //Reset Lvr B fail counter
-                                g_THERM_AppData.HkTlm.lvrBFailCnt = 0;
-                            }
-                            
-                            if(g_THERM_AppData.HkTlm.lvrBFailCnt < 3)
-                            {
-                                g_THERM_AppData.HkTlm.lvrBLastState = WiseMsgPtr->wiseLvrB_State;
-                                if(WISE_LVR_CLOSED == WiseMsgPtr->wiseLvrB_State)
-                                {
-                                    //SEND LVR TOGGLE B
-                                    g_THERM_AppData.ThermWiseTlm.cmdCode = WISE_LVR_TOGGLE_CC;
-                                    g_THERM_AppData.ThermWiseTlm.target = WISE_LVR_B;
-                                    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm);
-                                    CFE_SB_SendMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm);  
-                                }
-                            }
-                            else
-                            {
-                                CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
-                                      "THERM - Louver B has failed to change after 3 attempts. Louver B is broken (0x%08X)", TlmMsgId);
-                            }
-                            
-
-                            /*Manage Heaters*/
-                            if(WISE_HTR_ON == WiseMsgPtr->wiseHtrA_State)
-                            {
-                                //SEND HTR TOGGLE A
-                                g_THERM_AppData.ThermWiseTlm.cmdCode = WISE_HTR_TOGGLE_CC;
-                                g_THERM_AppData.ThermWiseTlm.target = WISE_HTR_A;
-                                CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm);
-                                CFE_SB_SendMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm); 
-                            }
-                            if(WISE_HTR_ON == WiseMsgPtr->wiseHtrB_State)
-                            {
-                                //SEND HTR TOGGLE B
-                                g_THERM_AppData.ThermWiseTlm.cmdCode = WISE_HTR_TOGGLE_CC;
-                                g_THERM_AppData.ThermWiseTlm.target = WISE_HTR_B;
-                                CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm);
-                                CFE_SB_SendMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm); 
-                            }
-                        }
-
-                        //Temp is low. Increase temp
-                        else if (WISE_TEMP_MIN > WiseMsgPtr->wiseTemp) 
-                        {
-                            //Manage Heaters
-                            if(WISE_HTR_OFF == WiseMsgPtr->wiseHtrA_State)
-                            {
-                                //SEND HTR TOGGLE A
-                                g_THERM_AppData.ThermWiseTlm.cmdCode = WISE_HTR_TOGGLE_CC;
-                                g_THERM_AppData.ThermWiseTlm.target = WISE_HTR_A;
-                                CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm);
-                                CFE_SB_SendMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm); 
-                            }
-                            if(WISE_HTR_OFF == WiseMsgPtr->wiseHtrB_State)
-                            {
-                                //SEND HTR TOGGLE B
-                                g_THERM_AppData.ThermWiseTlm.cmdCode = WISE_HTR_TOGGLE_CC;
-                                g_THERM_AppData.ThermWiseTlm.target = WISE_HTR_B;
-                                CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm);
-                                CFE_SB_SendMsg((CFE_SB_Msg_t*)&g_THERM_AppData.ThermWiseTlm); 
-                            }
-                        }
-                    }
-                    else
-                    {
-                        CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
-                                      "THERM - SBC State INVALID for TLM msgId (0x%08X)", TlmMsgId);
-                        CFE_EVS_SendEvent(THERM_CMD_INF_EID, CFE_EVS_INFORMATION,
-                                        "THERM - Current wise state %d. Needs to be POWERED(1) or OBSERVING(2)", WiseMsgPtr->wiseSbcState);
-                    }
-                    
+                    WiseMsgPtr = (WISE_HkTlm_t *) TlmMsgPtr;
+                    THERM_process_wise_hk(WiseMsgPtr, TlmMsgId);
                     break;
 
                 default:
@@ -797,7 +806,7 @@ void THERM_ProcessNewData()
         }
     }
 }
-    
+
 /*=====================================================================================
 ** Name: THERM_ProcessNewCmds
 **
@@ -835,7 +844,7 @@ void THERM_ProcessNewData()
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  JASH 
+** Author(s):  JASH
 **
 ** History:  Date Written  2020-07-29
 **           Unit Tested   yyyy-mm-dd
@@ -890,7 +899,7 @@ void THERM_ProcessNewCmds()
         }
     }
 }
-    
+
 /*=====================================================================================
 ** Name: THERM_ProcessNewAppCmds
 **
@@ -926,7 +935,7 @@ void THERM_ProcessNewCmds()
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  JASH 
+** Author(s):  JASH
 **
 ** History:  Date Written  2020-07-29
 **           Unit Tested   yyyy-mm-dd
@@ -962,10 +971,10 @@ void THERM_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
                     // Reset the appropriate louver's attempt count based on the
                     // command received
                     if (CmdPtr->lrvSelect == 0){
-                        g_THERM_AppData.HkTlm.lvrAFailCnt = 0;
+                        g_THERM_AppData.HkTlm.lvrAAttempts = 0;
                     }
                     else if (CmdPtr->lrvSelect == 1){
-                        g_THERM_AppData.HkTlm.lvrBFailCnt = 0;
+                        g_THERM_AppData.HkTlm.lvrBAttempts = 0;
                     }
                     else{
                         // invalid parameter. create event
@@ -982,7 +991,7 @@ void THERM_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
         }
     }
 }
-    
+
 /*=====================================================================================
 ** Name: THERM_ReportHousekeeping
 **
@@ -1028,7 +1037,7 @@ void THERM_ReportHousekeeping()
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&g_THERM_AppData.HkTlm);
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&g_THERM_AppData.HkTlm);
 }
-    
+
 /*=====================================================================================
 ** Name: THERM_SendOutData
 **
@@ -1076,7 +1085,7 @@ void THERM_SendOutData()
 
     THERM_ReportHousekeeping();
 }
-    
+
 /*=====================================================================================
 ** Name: THERM_VerifyCmdLength
 **
@@ -1111,7 +1120,7 @@ void THERM_SendOutData()
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  JASH 
+** Author(s):  JASH
 **
 ** History:  Date Written  2020-07-29
 **           Unit Tested   yyyy-mm-dd
@@ -1141,7 +1150,7 @@ boolean THERM_VerifyCmdLength(CFE_SB_Msg_t* MsgPtr,
 
     return (bResult);
 }
-    
+
 /*=====================================================================================
 ** Name: THERM_AppMain
 **
@@ -1182,7 +1191,7 @@ boolean THERM_VerifyCmdLength(CFE_SB_Msg_t* MsgPtr,
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  JASH 
+** Author(s):  JASH
 **
 ** History:  Date Written  2020-07-29
 **           Unit Tested   yyyy-mm-dd
@@ -1217,9 +1226,8 @@ void THERM_AppMain()
 
     /* Exit the application */
     CFE_ES_ExitApp(g_THERM_AppData.uiRunStatus);
-} 
-    
+}
+
 /*=======================================================================================
 ** End of file therm_app.c
 **=====================================================================================*/
-    

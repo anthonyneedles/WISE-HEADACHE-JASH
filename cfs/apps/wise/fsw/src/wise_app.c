@@ -69,7 +69,7 @@ WISE_AppData_t  g_WISE_AppData;
 /*
 ** Local Function Definitions
 */
-    
+
 /*=====================================================================================
 ** Name: WISE_InitEvent
 **
@@ -104,7 +104,7 @@ WISE_AppData_t  g_WISE_AppData;
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  fsw 
+** Author(s):  fsw
 **
 ** History:  Date Written  2020-04-25
 **           Unit Tested   yyyy-mm-dd
@@ -142,7 +142,7 @@ int32 WISE_InitEvent()
 
     return (iStatus);
 }
-    
+
 /*=====================================================================================
 ** Name: WISE_InitPipe
 **
@@ -186,7 +186,7 @@ int32 WISE_InitEvent()
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  fsw 
+** Author(s):  fsw
 **
 ** History:  Date Written  2020-04-25
 **           Unit Tested   yyyy-mm-dd
@@ -213,7 +213,7 @@ int32 WISE_InitPipe()
             CFE_ES_WriteToSysLog("WISE - Sch Pipe failed to subscribe to WISE_WAKEUP_MID. (0x%08X)\n", (unsigned int) iStatus);
             goto WISE_InitPipe_Exit_Tag;
         }
-        
+
     }
     else
     {
@@ -248,7 +248,7 @@ int32 WISE_InitPipe()
             CFE_ES_WriteToSysLog("WISE - CMD Pipe failed to subscribe to WISE_SEND_HK_MID. (0x%08X)\n", (unsigned int) iStatus);
             goto WISE_InitPipe_Exit_Tag;
         }
-        
+
     }
     else
     {
@@ -272,12 +272,6 @@ int32 WISE_InitPipe()
         ** Examples:
         **     CFE_SB_Subscribe(GNCEXEC_OUT_DATA_MID, g_WISE_AppData.TlmPipeId);
         */
-	   iStatus = CFE_SB_Subscribe(THERM_WISE_OUT_TLM_MID, g_WISE_AppData.TlmPipeId);
-        if (iStatus != CFE_SUCCESS)
-        {
-            CFE_ES_WriteToSysLog("WISE - CMD Pipe failed to subscribe to THERM_WISE_OUT_TLM_MID. (0x%08X)\n", iStatus);
-            goto WISE_InitPipe_Exit_Tag;
-        }
     }
     else
     {
@@ -288,7 +282,7 @@ int32 WISE_InitPipe()
 WISE_InitPipe_Exit_Tag:
     return (iStatus);
 }
-    
+
 /*=====================================================================================
 ** Name: WISE_InitData
 **
@@ -324,7 +318,7 @@ WISE_InitPipe_Exit_Tag:
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  fsw 
+** Author(s):  fsw
 **
 ** History:  Date Written  2020-04-25
 **           Unit Tested   yyyy-mm-dd
@@ -348,7 +342,7 @@ int32 WISE_InitData()
 
     return (iStatus);
 }
-    
+
 /*=====================================================================================
 ** Name: WISE_InitApp
 **
@@ -388,7 +382,7 @@ int32 WISE_InitData()
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  fsw 
+** Author(s):  fsw
 **
 ** History:  Date Written  2020-04-25
 **           Unit Tested   yyyy-mm-dd
@@ -406,8 +400,8 @@ int32 WISE_InitApp()
         goto WISE_InitApp_Exit_Tag;
     }
 
-    if ((WISE_InitEvent() != CFE_SUCCESS) || 
-        (WISE_InitPipe() != CFE_SUCCESS) || 
+    if ((WISE_InitEvent() != CFE_SUCCESS) ||
+        (WISE_InitPipe() != CFE_SUCCESS) ||
         (WISE_InitData() != CFE_SUCCESS))
     {
         iStatus = -1;
@@ -469,7 +463,7 @@ WISE_InitApp_Exit_Tag:
 
     return (iStatus);
 }
-    
+
 /*=====================================================================================
 ** Name: WISE_CleanupCallback
 **
@@ -503,7 +497,7 @@ WISE_InitApp_Exit_Tag:
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  fsw 
+** Author(s):  fsw
 **
 ** History:  Date Written  2020-04-25
 **           Unit Tested   yyyy-mm-dd
@@ -512,7 +506,7 @@ void WISE_CleanupCallback()
 {
     /* TODO:  Add code to cleanup memory and other cleanup here */
 }
-    
+
 /*=====================================================================================
 ** Name: WISE_RcvMsg
 **
@@ -522,7 +516,7 @@ void WISE_CleanupCallback()
 **    None
 **
 ** Returns:
-**    int32 iStatus - Status of initialization 
+**    int32 iStatus - Status of initialization
 **
 ** Routines Called:
 **    CFE_SB_RcvMsg
@@ -553,7 +547,7 @@ void WISE_CleanupCallback()
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  fsw 
+** Author(s):  fsw
 **
 ** History:  Date Written  2020-04-25
 **           Unit Tested   yyyy-mm-dd
@@ -612,7 +606,7 @@ int32 WISE_RcvMsg(int32 iBlocking)
 
     return (iStatus);
 }
-    
+
 /*=====================================================================================
 ** Name: WISE_ProcessNewData
 **
@@ -648,7 +642,7 @@ int32 WISE_RcvMsg(int32 iBlocking)
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  fsw 
+** Author(s):  fsw
 **
 ** History:  Date Written  2020-04-25
 **           Unit Tested   yyyy-mm-dd
@@ -658,7 +652,6 @@ void WISE_ProcessNewData()
     int iStatus = CFE_SUCCESS;
     CFE_SB_Msg_t*   TlmMsgPtr=NULL;
     CFE_SB_MsgId_t  TlmMsgId;
-	THERM_WISE_OutTlm_t* ThermWiseMsgPtr=NULL;
 
     /* Process telemetry messages till the pipe is empty */
     while (1)
@@ -669,19 +662,13 @@ void WISE_ProcessNewData()
             TlmMsgId = CFE_SB_GetMsgId(TlmMsgPtr);
             switch (TlmMsgId)
             {
-                /* TODO:  Add code to process all subscribed data here 
+                /* TODO:  Add code to process all subscribed data here
                 **
                 ** Example:
                 **     case NAV_OUT_DATA_MID:
                 **         WISE_ProcessNavData(TlmMsgPtr);
                 **         break;
                 */
-			   case THERM_WISE_OUT_TLM_MID:
-                    CFE_EVS_SendEvent(WISE_CMD_INF_EID, CFE_EVS_INFORMATION,
-                                  "WISE - Recvd THERM_WISE_OUT_TLM");
-                    ThermWiseMsgPtr = (THERM_WISE_OutTlm_t*) TlmMsgPtr;
-					ProcessThermMsg(ThermWiseMsgPtr);              
-                  break;
 
                 default:
                     CFE_EVS_SendEvent(WISE_MSGID_ERR_EID, CFE_EVS_ERROR,
@@ -703,36 +690,6 @@ void WISE_ProcessNewData()
     }
 }
 
-void ProcessThermMsg(THERM_WISE_OutTlm_t* ThermWiseMsgPtr)
-{
-	switch(ThermWiseMsgPtr->cmdCode)
-	{
-		case WISE_HTR_TOGGLE_CC:
-			if((gWiseSbcState != WISE_SBC_OFF) && (gWiseSbcState != WISE_SBC_ERROR))
-			{
-				CFE_EVS_SendEvent(WISE_CMD_INF_EID, CFE_EVS_INFORMATION,
-                                  "WISE - TOGGLE HTR from Therm");
-				WISE_ToggleHtr(ThermWiseMsgPtr->target);
-			}
-			break;
-
-		case WISE_LVR_TOGGLE_CC:
-			if((gWiseSbcState != WISE_SBC_OFF) && (gWiseSbcState != WISE_SBC_ERROR))
-			{
-				CFE_EVS_SendEvent(WISE_CMD_INF_EID, CFE_EVS_INFORMATION,
-                                  "WISE - TOGGLE LVR from Therm");
-				WISE_ToggleLvr(ThermWiseMsgPtr->target);
-			}
-			break;
-
-		default:
-			CFE_EVS_SendEvent(WISE_MSGID_ERR_EID, CFE_EVS_ERROR,
-								"WISE - Recvd invalid CC from THERM TLM");
-			break;
-	}
-
-}
-    
 /*=====================================================================================
 ** Name: WISE_ProcessNewCmds
 **
@@ -770,7 +727,7 @@ void ProcessThermMsg(THERM_WISE_OutTlm_t* ThermWiseMsgPtr)
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  fsw 
+** Author(s):  fsw
 **
 ** History:  Date Written  2020-04-25
 **           Unit Tested   yyyy-mm-dd
@@ -825,7 +782,7 @@ void WISE_ProcessNewCmds()
         }
     }
 }
-    
+
 /*=====================================================================================
 ** Name: WISE_ProcessNewAppCmds
 **
@@ -861,7 +818,7 @@ void WISE_ProcessNewCmds()
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  fsw 
+** Author(s):  fsw
 **
 ** History:  Date Written  2020-04-25
 **           Unit Tested   yyyy-mm-dd
@@ -968,7 +925,7 @@ void WISE_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
         }
     }
 }
-    
+
 /*=====================================================================================
 ** Name: WISE_ReportHousekeeping
 **
@@ -1030,7 +987,7 @@ void WISE_ReportHousekeeping()
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&g_WISE_AppData.HkTlm);
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&g_WISE_AppData.HkTlm);
 }
-    
+
 /*=====================================================================================
 ** Name: WISE_SendOutData
 **
@@ -1076,7 +1033,7 @@ void WISE_SendOutData()
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&g_WISE_AppData.OutData);
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&g_WISE_AppData.OutData);
 }
-    
+
 /*=====================================================================================
 ** Name: WISE_VerifyCmdLength
 **
@@ -1111,7 +1068,7 @@ void WISE_SendOutData()
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  fsw 
+** Author(s):  fsw
 **
 ** History:  Date Written  2020-04-25
 **           Unit Tested   yyyy-mm-dd
@@ -1141,7 +1098,7 @@ boolean WISE_VerifyCmdLength(CFE_SB_Msg_t* MsgPtr,
 
     return (bResult);
 }
-    
+
 /*=====================================================================================
 ** Name: WISE_AppMain
 **
@@ -1182,7 +1139,7 @@ boolean WISE_VerifyCmdLength(CFE_SB_Msg_t* MsgPtr,
 ** Algorithm:
 **    Psuedo-code or description of basic algorithm
 **
-** Author(s):  fsw 
+** Author(s):  fsw
 **
 ** History:  Date Written  2020-04-25
 **           Unit Tested   yyyy-mm-dd
@@ -1217,7 +1174,7 @@ void WISE_AppMain()
 
     /* Exit the application */
     CFE_ES_ExitApp(g_WISE_AppData.uiRunStatus);
-} 
+}
 
 
 
@@ -1817,4 +1774,4 @@ void WISE_UpdateCapStatus()
 /*=======================================================================================
 ** End of file wise_app.c
 **=====================================================================================*/
-    
+

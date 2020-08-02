@@ -16,7 +16,7 @@
 **   2020-07-29 | JASH | Build #: Code Started
 **
 **=====================================================================================*/
-    
+
 #ifndef _THERM_APP_H_
 #define _THERM_APP_H_
 
@@ -39,11 +39,13 @@
 #include "therm_msgids.h"
 #include "therm_msg.h"
 
+#include <wise_msgids.h>
+
 
 /*
 ** Local Defines
 */
-#define THERM_TIMEOUT_MSEC    1000
+#define THERM_TIMEOUT_MSEC (1000)
 
 /*
 ** WISE Defines
@@ -51,8 +53,8 @@
 
 /* The instrument safe range is 0 - 45 degrees C.  */
 /* We are choosing to maintain the operational temperature 15 - 30 C*/
-#define WISE_TEMP_MAX (30.0)
-#define WISE_TEMP_MIN (15.0)
+#define WISE_TEMP_MAX (30*10)
+#define WISE_TEMP_MIN (15*10)
 
 /* Thermal System Definitions */
 
@@ -73,6 +75,10 @@
 #define WISE_LVR_OPEN   (0)
 #define WISE_LVR_CLOSED (1)
 
+#define WISE_LVR_MIN_CHARGE (5*100)
+
+#define WISE_MAX_LVR_ATTEMPTS (3)
+
 
 /* Observation System Definitions */
 
@@ -85,9 +91,14 @@
 #define WISE_INSTR_DMG_MINOR (1)
 #define WISE_INSTR_DMG_MAJOR (2)
 
-/*WISE THERM Command Codes*/
-#define WISE_HTR_TOGGLE_CC		     3
-#define WISE_LVR_TOGGLE_CC         4
+#define WISE_ACTIVE_CAP_A (0)
+#define WISE_ACTIVE_CAP_B (1)
+#define WISE_ACTIVE_CAP_C (2)
+
+#define WISE_CAP_CHARGING    (0)
+#define WISE_CAP_LEAKING     (1)
+#define WISE_CAP_DISCHARGING (2)
+#define WISE_CAP_BROKEN      (3)
 
 /*
 ** Local Structure Declarations
@@ -98,7 +109,7 @@ typedef struct
     CFE_EVS_BinFilter_t  EventTbl[THERM_EVT_CNT];
 
     /* CFE scheduling pipe */
-    CFE_SB_PipeId_t  SchPipeId; 
+    CFE_SB_PipeId_t  SchPipeId;
     uint16           usSchPipeDepth;
     char             cSchPipeName[OS_MAX_API_NAME];
 
@@ -106,7 +117,7 @@ typedef struct
     CFE_SB_PipeId_t  CmdPipeId;
     uint16           usCmdPipeDepth;
     char             cCmdPipeName[OS_MAX_API_NAME];
-    
+
     /* CFE telemetry pipe */
     CFE_SB_PipeId_t  TlmPipeId;
     uint16           usTlmPipeDepth;
@@ -114,7 +125,7 @@ typedef struct
 
     /* Task-related */
     uint32  uiRunStatus;
-    
+
     /* Input data - from I/O devices or subscribed from other apps' output data.
        Data structure should be defined in therm/fsw/src/therm_private_types.h */
     THERM_InData_t   InData;
@@ -127,11 +138,8 @@ typedef struct
        Data structure should be defined in therm/fsw/src/therm_msg.h */
     THERM_HkTlm_t  HkTlm;
 
-    /* TODO:  Add declarations for additional private data here */
-    /* THERM to WISE Output data - to be published as needed.
-       Data structure should be defined in therm/fsw/src/therm_msg.h */
-    THERM_WISE_OutTlm_t ThermWiseTlm;
-
+    /* WISE commanding - for sending commands to WISE */
+    THERM_To_WISE_ParmCmd_t WISECmd;
 } THERM_AppData_t;
 
 /*
@@ -174,4 +182,3 @@ boolean  THERM_VerifyCmdLength(CFE_SB_Msg_t*, uint16);
 /*=======================================================================================
 ** End of file therm_app.h
 **=====================================================================================*/
-    

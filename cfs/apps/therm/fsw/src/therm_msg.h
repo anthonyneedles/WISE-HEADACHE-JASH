@@ -7,7 +7,7 @@
 ** $Revision: 1.1 $
 ** $Date:      2020-07-29
 **
-** Purpose:  To define THERM's command and telemetry message defintions 
+** Purpose:  To define THERM's command and telemetry message defintions
 **
 ** Modification History:
 **   Date | Author | Description
@@ -15,7 +15,7 @@
 **   2020-07-29 | JASH | Build #: Code Started
 **
 **=====================================================================================*/
-    
+
 #ifndef _THERM_MSG_H_
 #define _THERM_MSG_H_
 
@@ -41,6 +41,12 @@
 #define THERM_RST_LVR_CNT_CC          2
 
 /*
+** WISE command codes THERM uses
+*/
+#define WISE_HTR_TOGGLE_CC		     3
+#define WISE_LVR_TOGGLE_CC         4
+
+/*
 ** Local Structure Declarations
 */
 typedef struct
@@ -50,10 +56,8 @@ typedef struct
     uint8              usCmdErrCnt;
 
     /* TODO:  Add declarations for additional housekeeping data here */
-    uint8              lvrAFailCnt;
-    uint8              lvrBFailCnt;
-    int8               lvrALastState;
-    int8               lvrBLastState;
+    uint8              lvrAAttempts;
+    uint8              lvrBAttempts;
 
 } THERM_HkTlm_t;
 
@@ -102,4 +106,3 @@ typedef struct
 /*=======================================================================================
 ** End of file therm_msg.h
 **=====================================================================================*/
-    
