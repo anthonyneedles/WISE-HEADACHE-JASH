@@ -182,18 +182,30 @@ void THERM_process_wise_hk(WISE_HkTlm_t *hk_ptr, CFE_SB_MsgId_t msg_id)
 
         if (hk_ptr->wiseTemp > WISE_TEMP_MAX) {
             //Temp is high. Decrease temp
-            if (WISE_HTR_ON == hk_ptr->wiseHtrA_State)
+            if (WISE_HTR_ON == hk_ptr->wiseHtrA_State && FALSE == g_THERM_AppData.HkTlm.heaterTglA)
+            {
                 THERM_toggle_htr(WISE_HTR_A);
+                g_THERM_AppData.HkTlm.heaterTglA = TRUE;
+            }
 
-            if (WISE_HTR_ON == hk_ptr->wiseHtrB_State)
+            if (WISE_HTR_ON == hk_ptr->wiseHtrB_State && FALSE == g_THERM_AppData.HkTlm.heaterTglB)
+            {
                 THERM_toggle_htr(WISE_HTR_B);
+                g_THERM_AppData.HkTlm.heaterTglB = TRUE;
+            }
         } else if (WISE_TEMP_MIN > hk_ptr->wiseTemp) {
             //Temp is low. Increase temp
-            if (WISE_HTR_OFF == hk_ptr->wiseHtrA_State)
+            if (WISE_HTR_OFF == hk_ptr->wiseHtrA_State && FALSE == g_THERM_AppData.HkTlm.heaterTglA)
+            {
                 THERM_toggle_htr(WISE_HTR_A);
+                g_THERM_AppData.HkTlm.heaterTglA = TRUE;
+            }
 
-            if (WISE_HTR_OFF == hk_ptr->wiseHtrB_State)
+            if (WISE_HTR_OFF == hk_ptr->wiseHtrB_State && FALSE == g_THERM_AppData.HkTlm.heaterTglB)
+            {
                 THERM_toggle_htr(WISE_HTR_B);
+                g_THERM_AppData.HkTlm.heaterTglB = TRUE;
+            }
         }
     } else {
         CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
@@ -488,6 +500,8 @@ int32 THERM_InitData()
     // Reset the attempt counts during app initialization
     g_THERM_AppData.HkTlm.lvrAAttempts = 0;
     g_THERM_AppData.HkTlm.lvrBAttempts = 0;
+    g_THERM_AppData.HkTlm.heaterTglA = FALSE;
+    g_THERM_AppData.HkTlm.heaterTglB =FALSE;
 
     return (iStatus);
 }
@@ -683,6 +697,8 @@ int32 THERM_RcvMsg(int32 iBlocking)
         switch (MsgId)
 	{
             case THERM_WAKEUP_MID:
+                g_THERM_AppData.HkTlm.heaterTglA = FALSE;
+                g_THERM_AppData.HkTlm.heaterTglB = FALSE;
                 THERM_ProcessNewCmds();
                 THERM_ProcessNewData();
 
