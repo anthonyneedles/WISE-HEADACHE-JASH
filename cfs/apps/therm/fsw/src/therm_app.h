@@ -56,9 +56,10 @@
 /* To account for component turn on/off times, the upper and lower*/
 /* temperature limits will be set as 18 - 27 C*/
 
-#define WISE_TEMP_THRESHOLD (3)
-#define WISE_TEMP_MAX ((30-WISE_TEMP_THRESHOLD)*10)
-#define WISE_TEMP_MIN ((15+WISE_TEMP_THRESHOLD)*10)
+#define WISE_TEMP_MAX_THRESH (5)
+#define WISE_TEMP_MIN_THRESH (3)
+#define WISE_TEMP_MAX ((30-WISE_TEMP_MAX_THRESH)*10)
+#define WISE_TEMP_MIN ((15+WISE_TEMP_MIN_THRESH)*10)
 
 /* Thermal System Definitions */
 
