@@ -43,7 +43,7 @@
 /*
 ** WISE command codes THERM uses
 */
-#define WISE_HTR_TOGGLE_CC		     3
+#define WISE_HTR_TOGGLE_CC           3
 #define WISE_LVR_TOGGLE_CC           4
 
 /*
@@ -58,9 +58,6 @@ typedef struct
     /* TODO:  Add declarations for additional housekeeping data here */
     uint8              lvrAAttempts;
     uint8              lvrBAttempts;
-
-    uint8              heaterTglA;
-    uint8              heaterTglB;
 
 } THERM_HkTlm_t;
 

@@ -53,8 +53,12 @@
 
 /* The instrument safe range is 0 - 45 degrees C.  */
 /* We are choosing to maintain the operational temperature 15 - 30 C*/
-#define WISE_TEMP_MAX (30*10)
-#define WISE_TEMP_MIN (15*10)
+/* To account for component turn on/off times, the upper and lower*/
+/* temperature limits will be set as 18 - 27 C*/
+
+#define WISE_TEMP_THRESHOLD (3)
+#define WISE_TEMP_MAX ((30-WISE_TEMP_THRESHOLD)*10)
+#define WISE_TEMP_MIN ((15+WISE_TEMP_THRESHOLD)*10)
 
 /* Thermal System Definitions */
 
@@ -140,6 +144,9 @@ typedef struct
 
     /* WISE commanding - for sending commands to WISE */
     THERM_To_WISE_ParmCmd_t WISECmd;
+
+    uint8              heaterTglA;
+    uint8              heaterTglB;
 } THERM_AppData_t;
 
 /*

@@ -81,12 +81,12 @@ uint16 THERM_get_active_cap_charge(WISE_HkTlm_t *hk_ptr)
             cap_state = hk_ptr->wiseCapA_State;
             if ((cap_state != WISE_CAP_BROKEN) && (cap_state != WISE_CAP_LEAKING)) {
                 charge = hk_ptr->wiseCapA_Charge;
-                CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
-                        "THERM - ACTIVE CAP %d WITH CHARGE %d", active_cap, charge);
+                CFE_EVS_SendEvent(THERM_CMD_INF_EID, CFE_EVS_INFORMATION,
+                        "THERM - Active Capacitor %d With Charge %d", active_cap, charge);
             } else {
                 CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
-                        "THERM - WISE active cap invalid: %d (Broken (%d) or Leaking (%d))",
-                        active_cap, WISE_CAP_BROKEN, WISE_CAP_LEAKING);
+                        "THERM - Invalid Active Capacitor State. Active Capacitor: %d State: %d (Broken (%d) or Leaking (%d))",
+                        active_cap, cap_state, WISE_CAP_BROKEN, WISE_CAP_LEAKING);
             }
             break;
 
@@ -94,12 +94,12 @@ uint16 THERM_get_active_cap_charge(WISE_HkTlm_t *hk_ptr)
             cap_state = hk_ptr->wiseCapB_State;
             if ((cap_state != WISE_CAP_BROKEN) && (cap_state != WISE_CAP_LEAKING)) {
                 charge = hk_ptr->wiseCapB_Charge;
-                CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
+                CFE_EVS_SendEvent(THERM_CMD_INF_EID, CFE_EVS_INFORMATION,
                         "THERM - ACTIVE CAP %d WITH CHARGE %d", active_cap, charge);
             } else {
                 CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
-                        "THERM - WISE active cap invalid: %d (Broken (%d) or Leaking (%d))",
-                        active_cap, WISE_CAP_BROKEN, WISE_CAP_LEAKING);
+                        "THERM - Invalid Active Capacitor State. Active Capacitor: %d State: %d (Broken (%d) or Leaking (%d))",
+                        active_cap, cap_state, WISE_CAP_BROKEN, WISE_CAP_LEAKING);
             }
             break;
 
@@ -107,18 +107,18 @@ uint16 THERM_get_active_cap_charge(WISE_HkTlm_t *hk_ptr)
             cap_state = hk_ptr->wiseCapC_State;
             if ((cap_state != WISE_CAP_BROKEN) && (cap_state != WISE_CAP_LEAKING)) {
                 charge = hk_ptr->wiseCapC_Charge;
-                CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
+                CFE_EVS_SendEvent(THERM_CMD_INF_EID, CFE_EVS_INFORMATION,
                         "THERM - ACTIVE CAP %d WITH CHARGE %d", active_cap, charge);
             } else {
                 CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
-                        "THERM - WISE active cap invalid: %d (Broken (%d) or Leaking (%d))",
-                        active_cap, WISE_CAP_BROKEN, WISE_CAP_LEAKING);
+                        "THERM - Invalid Active Capacitor State. Active Capacitor: %d State: %d (Broken (%d) or Leaking (%d))",
+                        active_cap, cap_state, WISE_CAP_BROKEN, WISE_CAP_LEAKING);
             }
             break;
 
         default:
             CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
-                    "THERM - WISE reported invalid active cap: %d", active_cap);
+                    "THERM - WISE reported invalid active capacitor: %d", active_cap);
             break;
     }
 
@@ -130,8 +130,8 @@ void THERM_toggle_lvr(WISE_HkTlm_t *hk_ptr, uint16 target)
     uint16 active_charge = THERM_get_active_cap_charge(hk_ptr);
 
     if (active_charge >= WISE_LVR_MIN_CHARGE) {
-        CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
-                "THERM - TOGGLING LOUVER %d, ACTIVE CHARGE: %d", target, active_charge);
+        CFE_EVS_SendEvent(THERM_CMD_INF_EID, CFE_EVS_INFORMATION,
+                "THERM - Toggling Louver %d, Active Capacitor Charge: %d", target, active_charge);
         g_THERM_AppData.WISECmd.target = target;
         CFE_SB_SetCmdCode((CFE_SB_Msg_t*)&g_THERM_AppData.WISECmd, WISE_LVR_TOGGLE_CC);
         CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&g_THERM_AppData.WISECmd);
@@ -142,22 +142,26 @@ void THERM_toggle_lvr(WISE_HkTlm_t *hk_ptr, uint16 target)
             g_THERM_AppData.HkTlm.lvrAAttempts++;
             if (g_THERM_AppData.HkTlm.lvrAAttempts >= WISE_MAX_LVR_ATTEMPTS)
                 CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
-                        "THERM - Louver A has failed to change after 3 attempts. Louver A is broken");
+                        "THERM - Louver A has failed to change after 3 attempts. Louver A is assumed broken or stuck");
         } else if (target == WISE_LVR_B) {
             g_THERM_AppData.HkTlm.lvrBAttempts++;
             if (g_THERM_AppData.HkTlm.lvrAAttempts >= WISE_MAX_LVR_ATTEMPTS)
                 CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
-                        "THERM - Louver B has failed to change after 3 attempts. Louver B is broken");
+                        "THERM - Louver B has failed to change after 3 attempts. Louver B is assumed broken or stuck");
         }
     } else {
         CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
-                "THERM - Can't currently toggle louver: %d", target);
+                "THERM - Can't toggle louver %d due to active capacitor state of charge", target);
     }
 }
 
 void THERM_toggle_htr(uint16 target)
 {
     g_THERM_AppData.WISECmd.target = target;
+
+    CFE_EVS_SendEvent(THERM_CMD_INF_EID, CFE_EVS_INFORMATION,
+        "THERM - Toggling heater %d", target);
+
     CFE_SB_SetCmdCode((CFE_SB_Msg_t*)&g_THERM_AppData.WISECmd, WISE_HTR_TOGGLE_CC);
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&g_THERM_AppData.WISECmd);
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&g_THERM_AppData.WISECmd);
@@ -182,36 +186,36 @@ void THERM_process_wise_hk(WISE_HkTlm_t *hk_ptr, CFE_SB_MsgId_t msg_id)
 
         if (hk_ptr->wiseTemp > WISE_TEMP_MAX) {
             //Temp is high. Decrease temp
-            if (WISE_HTR_ON == hk_ptr->wiseHtrA_State && FALSE == g_THERM_AppData.HkTlm.heaterTglA)
+            if (WISE_HTR_ON == hk_ptr->wiseHtrA_State && FALSE == g_THERM_AppData.heaterTglA)
             {
                 THERM_toggle_htr(WISE_HTR_A);
-                g_THERM_AppData.HkTlm.heaterTglA = TRUE;
+                g_THERM_AppData.heaterTglA = TRUE;
             }
 
-            if (WISE_HTR_ON == hk_ptr->wiseHtrB_State && FALSE == g_THERM_AppData.HkTlm.heaterTglB)
+            if (WISE_HTR_ON == hk_ptr->wiseHtrB_State && FALSE == g_THERM_AppData.heaterTglB)
             {
                 THERM_toggle_htr(WISE_HTR_B);
-                g_THERM_AppData.HkTlm.heaterTglB = TRUE;
+                g_THERM_AppData.heaterTglB = TRUE;
             }
         } else if (WISE_TEMP_MIN > hk_ptr->wiseTemp) {
             //Temp is low. Increase temp
-            if (WISE_HTR_OFF == hk_ptr->wiseHtrA_State && FALSE == g_THERM_AppData.HkTlm.heaterTglA)
+            if (WISE_HTR_OFF == hk_ptr->wiseHtrA_State && FALSE == g_THERM_AppData.heaterTglA)
             {
                 THERM_toggle_htr(WISE_HTR_A);
-                g_THERM_AppData.HkTlm.heaterTglA = TRUE;
+                g_THERM_AppData.heaterTglA = TRUE;
             }
 
-            if (WISE_HTR_OFF == hk_ptr->wiseHtrB_State && FALSE == g_THERM_AppData.HkTlm.heaterTglB)
+            if (WISE_HTR_OFF == hk_ptr->wiseHtrB_State && FALSE == g_THERM_AppData.heaterTglB)
             {
                 THERM_toggle_htr(WISE_HTR_B);
-                g_THERM_AppData.HkTlm.heaterTglB = TRUE;
+                g_THERM_AppData.heaterTglB = TRUE;
             }
         }
     } else {
         CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
                         "THERM - SBC State INVALID for TLM msgId (0x%08X)", msg_id);
         CFE_EVS_SendEvent(THERM_CMD_INF_EID, CFE_EVS_INFORMATION,
-                        "THERM - Current wise state %d. Needs to be POWERED(1) or OBSERVING(2)", hk_ptr->wiseSbcState);
+                        "THERM - Current WISE state %d. Needs to be POWERED(1) or OBSERVING(2)", hk_ptr->wiseSbcState);
     }
 }
 
@@ -500,8 +504,8 @@ int32 THERM_InitData()
     // Reset the attempt counts during app initialization
     g_THERM_AppData.HkTlm.lvrAAttempts = 0;
     g_THERM_AppData.HkTlm.lvrBAttempts = 0;
-    g_THERM_AppData.HkTlm.heaterTglA = FALSE;
-    g_THERM_AppData.HkTlm.heaterTglB =FALSE;
+    g_THERM_AppData.heaterTglA = FALSE;
+    g_THERM_AppData.heaterTglB = FALSE;
 
     return (iStatus);
 }
@@ -697,8 +701,8 @@ int32 THERM_RcvMsg(int32 iBlocking)
         switch (MsgId)
 	{
             case THERM_WAKEUP_MID:
-                g_THERM_AppData.HkTlm.heaterTglA = FALSE;
-                g_THERM_AppData.HkTlm.heaterTglB = FALSE;
+                g_THERM_AppData.heaterTglA = FALSE;
+                g_THERM_AppData.heaterTglB = FALSE;
                 THERM_ProcessNewCmds();
                 THERM_ProcessNewData();
 
@@ -796,7 +800,7 @@ void THERM_ProcessNewData()
                 */
                case WISE_HK_TLM_MID:
                     CFE_EVS_SendEvent(THERM_CMD_INF_EID, CFE_EVS_INFORMATION,
-                                  "THERM - Recvd WISE HK TLM");
+                                  "THERM - Received WISE HK TLM");
 
                     //Cast to Wise Msg
                     WiseMsgPtr = (WISE_HkTlm_t *) TlmMsgPtr;
@@ -805,7 +809,7 @@ void THERM_ProcessNewData()
 
                 default:
                     CFE_EVS_SendEvent(THERM_MSGID_ERR_EID, CFE_EVS_ERROR,
-                                      "THERM - Recvd invalid TLM msgId (0x%08X)", TlmMsgId);
+                                      "THERM - Received invalid TLM msgId (0x%08X)", TlmMsgId);
                     break;
             }
         }
@@ -987,9 +991,15 @@ void THERM_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
                     // Reset the appropriate louver's attempt count based on the
                     // command received
                     if (CmdPtr->lrvSelect == 0){
+                        CFE_EVS_SendEvent(THERM_CMD_INF_EID, CFE_EVS_INFORMATION,
+                            "THERM - Command received to reset louver A attempt count to zero");
+
                         g_THERM_AppData.HkTlm.lvrAAttempts = 0;
                     }
                     else if (CmdPtr->lrvSelect == 1){
+                        CFE_EVS_SendEvent(THERM_CMD_INF_EID, CFE_EVS_INFORMATION,
+                            "THERM - Command received to reset louver B attempt count to zero");
+
                         g_THERM_AppData.HkTlm.lvrBAttempts = 0;
                     }
                     else{
