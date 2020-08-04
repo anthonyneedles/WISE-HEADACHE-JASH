@@ -15,6 +15,8 @@ CFE_APP, /cf/apps/sc.so,      SC_AppMain,     SC,      100, 8192,  0x0, 0;
 CFE_APP, /cf/apps/sch.so,     SCH_AppMain,    SCH,     100, 8192,  0x0, 0;
 CFE_APP, /cf/apps/whe.so,     WHE_AppMain,    WHE,     100, 8192,  0x0, 0;
 CFE_APP, /cf/apps/wise.so,    WISE_AppMain,   WISE,    100, 8192,  0x0, 0;
+CFE_APP, /cf/apps/therm.so,   THERM_AppMain,  THERM,   100, 8192,  0x0, 0;
+
 !
 ! Startup script fields:
 ! 1. Object Type      -- CFE_APP for an Application, or CFE_LIB for a library.

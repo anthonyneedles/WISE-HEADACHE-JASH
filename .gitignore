@@ -1,0 +1,4 @@
+cfs/build/cpu1/*
+cfs/build/cpu1/exe/cf/apps/core-linux.bin
+!cfs/build/cpu1/exe/*.scr
+!cfs/build/cpu1/Makefile
